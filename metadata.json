@@ -1,0 +1,6 @@
+{
+  "name": "Tasbih Tap",
+  "description": "Minimal offline Islamic Tasbih and Dhikr counter featuring dynamic Islamic design, subtle haptic feedback, and back-of-device tap counting.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,167 @@
+<resources>
+    <string name="app_name">Tasbih Tap</string>
+    <string name="counter">Counter</string>
+    <string name="history">History</string>
+    <string name="settings">Settings</string>
+    <string name="back_tap_hint">Tap phone back or tap screen to count</string>
+    <string name="tap_back_to_count">TAP BACK TO COUNT</string>
+    <string name="tap_screen_to_count">TAP SCREEN TO COUNT</string>
+    <string name="round_format">Round %1$d</string>
+    <string name="round_unlimited">Unlimited Mode</string>
+    <string name="reset_dialog_title">Reset counter?</string>
+    <string name="reset_dialog_message">This will reset the current count.</string>
+    <string name="cancel">Cancel</string>
+    <string name="reset">Reset</string>
+    <string name="undo">Undo</string>
+    <string name="undo_count">Undo Count</string>
+    <string name="reset_counter">Reset Counter</string>
+    <string name="completed">Completed</string>
+    <string name="target_completed">Target Completed</string>
+    <string name="target_reached_next_round">Target Reached • Next Round</string>
+    <string name="misbaha_33x3">33×3 Misbaha</string>
+    <string name="select_dhikr">Select Dhikr</string>
+    <string name="unlimited">Unlimited</string>
+    <string name="unlimited_symbol">∞ Unlimited</string>
+
+    <!-- Dhikr Selection Sheet -->
+    <string name="dhikr_mode_selection">Dhikr &amp; Mode Selection</string>
+    <string name="mode_33x3_title">33 × 3 Mode</string>
+    <string name="mode_33x3_subtitle">SubhanAllah (33) → Alhamdulillah (33) → Allahu Akbar (33)</string>
+    <string name="target_count">Target Count</string>
+    <string name="target_prefix">Target: %1$d</string>
+    <string name="custom_target_chip">Custom…</string>
+    <string name="builtin_dhikr_presets">Built-in Dhikr Presets</string>
+    <string name="add_custom">Add Custom</string>
+    <string name="custom_dhikr">Custom Dhikr</string>
+    <string name="create_custom_dhikr">Create Custom Dhikr</string>
+    <string name="arabic_dhikr_text_label">Arabic / Dhikr Text</string>
+    <string name="arabic_dhikr_text_placeholder">e.g. سُبْحَانَ اللَّهِ</string>
+    <string name="name_transliteration_label">Name / Transliteration</string>
+    <string name="name_transliteration_placeholder">e.g. SubhanAllah</string>
+    <string name="target_count_label">Target Count</string>
+    <string name="save">Save</string>
+    <string name="set_custom_target">Set Custom Target</string>
+    <string name="target_number_label">Target Number</string>
+    <string name="apply">Apply</string>
+    <string name="target_label_format">%1$s • Target: %2$d</string>
+    <string name="selected">Selected</string>
+    <string name="delete">Delete</string>
+
+    <!-- Categories -->
+    <string name="category_all">All</string>
+    <string name="category_essential">Essential</string>
+    <string name="category_forgiveness">Forgiveness</string>
+    <string name="category_salawat">Salawat</string>
+    <string name="category_supplication">Supplication</string>
+    <string name="category_praise">Praise</string>
+    <string name="search_dhikr_placeholder">Search dhikr or translation…</string>
+
+    <!-- History Screen -->
+    <string name="history_statistics">History &amp; Statistics</string>
+    <string name="clear_history">Clear History</string>
+    <string name="back">Back</string>
+    <string name="summary">Summary</string>
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="all_time">All Time</string>
+    <string name="sessions_count_format">%1$d sessions</string>
+    <string name="completed_count_format">%1$d completed</string>
+    <string name="activity_log">Activity Log</string>
+    <string name="no_history_yet">No history recorded yet</string>
+    <string name="no_history_desc">Completed Dhikr sessions will appear here.</string>
+    <string name="clear_history_dialog_title">Clear all history?</string>
+    <string name="clear_history_dialog_desc">This will permanently remove all recorded Dhikr logs and statistics.</string>
+    <string name="clear_all">Clear All</string>
+    <string name="history_time_round_format">%1$s • Round %2$d</string>
+
+    <!-- Settings Screen -->
+    <string name="back_tap_counting">Back Tap Counting</string>
+    <string name="enable_back_tap">Enable Back Tap</string>
+    <string name="enable_back_tap_desc">Tap the back of the phone to increment count</string>
+    <string name="detection_sensitivity">Detection Sensitivity</string>
+    <string name="test_calibrate_detector">Test &amp; Calibrate Detector</string>
+    <string name="hardware_both_active">Hardware: Accelerometer + Gyroscope Active</string>
+    <string name="hardware_accel_active">Hardware: Accelerometer Active (Gyroscope unavailable)</string>
+    <string name="hardware_not_supported">Hardware: Motion sensors not supported on this device</string>
+    <string name="tactile_sound_feedback">Tactile &amp; Sound Feedback</string>
+    <string name="haptic_vibration">Haptic Vibration</string>
+    <string name="haptic_vibration_desc">Subtle pulse upon confirmed count &amp; completion</string>
+    <string name="haptic_intensity">Vibration Intensity</string>
+    <string name="audio_click">Audio Click</string>
+    <string name="audio_click_desc">Lightweight native system click (default OFF)</string>
+    <string name="customization_preferences">Display &amp; Controls</string>
+    <string name="keep_screen_awake">Keep Screen Awake</string>
+    <string name="keep_screen_awake_desc">Prevent screen from sleeping while counting</string>
+    <string name="volume_key_counting">Volume Key Counting</string>
+    <string name="volume_key_counting_desc">Use volume buttons to count with physical feedback</string>
+    <string name="islamic_themes">Islamic Themes</string>
+    <string name="privacy_philosophy">Privacy &amp; Philosophy</string>
+    <string name="offline_private_title">100% Offline &amp; Private</string>
+    <string name="offline_private_desc">Tasbih Tap operates entirely on-device with zero internet permission, no analytics, no advertising, and no tracking. All counts and history remain strictly on your phone.</string>
+    <string name="app_version">Tasbih Tap v1.2</string>
+
+    <!-- Back Tap Test Dialog -->
+    <string name="back_tap_calibration">Back-Tap Calibration</string>
+    <string name="sensitivity_chip_low">Low</string>
+    <string name="sensitivity_chip_medium">Medium</string>
+    <string name="sensitivity_chip_high">High</string>
+    <string name="test_tap_now_instruction">Tap the back of your phone firmly twice to test detection.</string>
+    <string name="taps_detected_format">Taps Detected: %1$d</string>
+    <string name="tap_confirmed">Tap Confirmed!</string>
+    <string name="waiting_for_back_tap">Waiting for back tap…</string>
+    <string name="calibrated_done">Calibrated &amp; Done</string>
+
+    <!-- Theme Names & Descriptions -->
+    <string name="theme_emerald_name">Emerald</string>
+    <string name="theme_emerald_desc">Deep emerald &amp; warm gold</string>
+    <string name="theme_midnight_name">Midnight</string>
+    <string name="theme_midnight_desc">Deep navy &amp; soft teal</string>
+    <string name="theme_sand_name">Sand</string>
+    <string name="theme_sand_desc">Warm parchment &amp; olive bronze</string>
+    <string name="theme_night_name">Night</string>
+    <string name="theme_night_desc">Pure OLED black &amp; subdued gold</string>
+    <string name="theme_rose_gold_name">Rose Gold</string>
+    <string name="theme_rose_gold_desc">Deep plum &amp; shimmering rose</string>
+    <string name="theme_royal_amber_name">Royal Amber</string>
+    <string name="theme_royal_amber_desc">Rich obsidian &amp; radiant amber</string>
+    <string name="theme_system_name">System</string>
+    <string name="theme_system_desc">Follows system dark/light</string>
+
+    <!-- Dhikr Names & Meanings (English) -->
+    <string name="dhikr_subhanallah_name">SubhanAllah</string>
+    <string name="dhikr_subhanallah_meaning">Glory be to Allah</string>
+    <string name="dhikr_alhamdulillah_name">Alhamdulillah</string>
+    <string name="dhikr_alhamdulillah_meaning">All praise is due to Allah</string>
+    <string name="dhikr_allahu_akbar_name">Allahu Akbar</string>
+    <string name="dhikr_allahu_akbar_meaning">Allah is the Greatest</string>
+    <string name="dhikr_tahlil_name">La ilaha illallah</string>
+    <string name="dhikr_tahlil_meaning">There is no deity except Allah</string>
+    <string name="dhikr_istighfar_name">Astaghfirullah</string>
+    <string name="dhikr_istighfar_meaning">I seek forgiveness from Allah</string>
+    <string name="dhikr_salawat_name">Salawat</string>
+    <string name="dhikr_salawat_meaning">Peace and blessings upon Muhammad</string>
+    <string name="dhikr_hawqala_name">La hawla wa la quwwata illa billah</string>
+    <string name="dhikr_hawqala_meaning">There is no power and no strength except in Allah</string>
+    <string name="dhikr_hasbunallah_name">Hasbunallahu wa ni\'mal wakeel</string>
+    <string name="dhikr_hasbunallah_meaning">Allah is sufficient for us, the best protector</string>
+    <string name="dhikr_subhanallahi_wa_bihamdihi_name">SubhanAllahi wa bihamdihi</string>
+    <string name="dhikr_subhanallahi_wa_bihamdihi_meaning">Glory and praise be to Allah</string>
+    <string name="dhikr_subhanallah_alazeem_name">SubhanAllahil Azeem</string>
+    <string name="dhikr_subhanallah_alazeem_meaning">Glory be to Allah the Magnificent</string>
+    <string name="dhikr_sayyidul_istighfar_name">Sayyidul Istighfar</string>
+    <string name="dhikr_sayyidul_istighfar_meaning">Chief supplication for forgiveness</string>
+    <string name="dhikr_yunus_dua_name">Ayat e Kareema (Dua of Yunus)</string>
+    <string name="dhikr_yunus_dua_meaning">Exalted are You, indeed I was of the wrongdoers</string>
+
+    <!-- Sensitivity Names -->
+    <string name="sensitivity_low">Low (Firm tap)</string>
+    <string name="sensitivity_medium">Medium (Standard)</string>
+    <string name="sensitivity_high">High (Light tap)</string>
+
+    <!-- Haptic Strength Names -->
+    <string name="haptic_light">Light</string>
+    <string name="haptic_medium">Medium</string>
+    <string name="haptic_strong">Strong</string>
+
+    <string name="app_credit">[made with ♥ by ©munabbiRMushran]</string>
+</resources>

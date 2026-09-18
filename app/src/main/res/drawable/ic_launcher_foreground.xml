@@ -1,0 +1,48 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Outer Prayer Bead Circlet (66dp safe zone: center 54, 54, radius ~24) -->
+    <!-- Bead highlights on a circular ring -->
+    <!-- Center 8-pointed star (Rub el Hizb / Khatam) -->
+    <path
+        android:fillColor="#FDE68A"
+        android:pathData="M54,38 L58,45 L65,45 L60,50 L62,57 L54,53 L46,57 L48,50 L43,45 L50,45 Z" />
+    <path
+        android:fillColor="#D4AF37"
+        android:pathData="M54,40 L57,46 L63,46 L58,50 L60,56 L54,52 L48,56 L50,50 L45,46 L51,46 Z" />
+
+    <!-- Rosary / Misbaha Beads around perimeter -->
+    <!-- Top bead -->
+    <path android:fillColor="#FDE68A" android:pathData="M54,26 m-3.5,0 a3.5,3.5 0 1,0 7,0 a3.5,3.5 0 1,0 -7,0" />
+    <!-- Clockwise beads -->
+    <path android:fillColor="#E6CA65" android:pathData="M65,29 m-3.2,0 a3.2,3.2 0 1,0 6.4,0 a3.2,3.2 0 1,0 -6.4,0" />
+    <path android:fillColor="#E6CA65" android:pathData="M74,36 m-3.2,0 a3.2,3.2 0 1,0 6.4,0 a3.2,3.2 0 1,0 -6.4,0" />
+    <path android:fillColor="#E6CA65" android:pathData="M79,45 m-3.2,0 a3.2,3.2 0 1,0 6.4,0 a3.2,3.2 0 1,0 -6.4,0" />
+    <path android:fillColor="#FDE68A" android:pathData="M80,55 m-3.5,0 a3.5,3.5 0 1,0 7,0 a3.5,3.5 0 1,0 -7,0" />
+    <path android:fillColor="#E6CA65" android:pathData="M77,65 m-3.2,0 a3.2,3.2 0 1,0 6.4,0 a3.2,3.2 0 1,0 -6.4,0" />
+    <path android:fillColor="#E6CA65" android:pathData="M70,73 m-3.2,0 a3.2,3.2 0 1,0 6.4,0 a3.2,3.2 0 1,0 -6.4,0" />
+    <path android:fillColor="#E6CA65" android:pathData="M61,78 m-3.2,0 a3.2,3.2 0 1,0 6.4,0 a3.2,3.2 0 1,0 -6.4,0" />
+
+    <!-- Counter-clockwise beads -->
+    <path android:fillColor="#E6CA65" android:pathData="M43,29 m-3.2,0 a3.2,3.2 0 1,0 6.4,0 a3.2,3.2 0 1,0 -6.4,0" />
+    <path android:fillColor="#E6CA65" android:pathData="M34,36 m-3.2,0 a3.2,3.2 0 1,0 6.4,0 a3.2,3.2 0 1,0 -6.4,0" />
+    <path android:fillColor="#E6CA65" android:pathData="M29,45 m-3.2,0 a3.2,3.2 0 1,0 6.4,0 a3.2,3.2 0 1,0 -6.4,0" />
+    <path android:fillColor="#FDE68A" android:pathData="M28,55 m-3.5,0 a3.5,3.5 0 1,0 7,0 a3.5,3.5 0 1,0 -7,0" />
+    <path android:fillColor="#E6CA65" android:pathData="M31,65 m-3.2,0 a3.2,3.2 0 1,0 6.4,0 a3.2,3.2 0 1,0 -6.4,0" />
+    <path android:fillColor="#E6CA65" android:pathData="M38,73 m-3.2,0 a3.2,3.2 0 1,0 6.4,0 a3.2,3.2 0 1,0 -6.4,0" />
+    <path android:fillColor="#E6CA65" android:pathData="M47,78 m-3.2,0 a3.2,3.2 0 1,0 6.4,0 a3.2,3.2 0 1,0 -6.4,0" />
+
+    <!-- Imam / Head Bead & Tassel at the bottom -->
+    <path
+        android:fillColor="#FDE68A"
+        android:pathData="M52,78 L56,78 L57,84 L51,84 Z" />
+    <path
+        android:fillColor="#D4AF37"
+        android:pathData="M54,84 L51,92 L57,92 Z" />
+    <path
+        android:strokeColor="#FDE68A"
+        android:strokeWidth="1.2"
+        android:pathData="M51,92 L49,97 M54,92 L54,98 M57,92 L59,97" />
+</vector>

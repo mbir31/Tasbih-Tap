@@ -1,0 +1,167 @@
+<resources>
+    <string name="app_name">তাসবীহ ট্যাপ</string>
+    <string name="counter">কাউন্টার</string>
+    <string name="history">ইতিহাস</string>
+    <string name="settings">সেটিংস</string>
+    <string name="back_tap_hint">গণনার জন্য ফোনের পেছনে অথবা স্ক্রিনে ট্যাপ করুন</string>
+    <string name="tap_back_to_count">গণনা করতে পেছনে ট্যাপ করুন</string>
+    <string name="tap_screen_to_count">গণনা করতে স্ক্রিনে ট্যাপ করুন</string>
+    <string name="round_format">রাউন্ড %1$d</string>
+    <string name="round_unlimited">সীমাহীন মোড</string>
+    <string name="reset_dialog_title">কাউন্টার রিসেট করবেন?</string>
+    <string name="reset_dialog_message">এটি বর্তমান গণনা শূন্যে ফিরিয়ে দেবে।</string>
+    <string name="cancel">বাতিল</string>
+    <string name="reset">রিসেট</string>
+    <string name="undo">পূর্বাবস্থায় ফেরান</string>
+    <string name="undo_count">গণনা পূর্বাবস্থায় ফেরান</string>
+    <string name="reset_counter">কাউন্টার রিসেট করুন</string>
+    <string name="completed">সম্পন্ন</string>
+    <string name="target_completed">টার্গেট সম্পন্ন হয়েছে</string>
+    <string name="target_reached_next_round">টার্গেট পূর্ণ • পরবর্তী রাউন্ড</string>
+    <string name="misbaha_33x3">৩৩×৩ মিসবাহা</string>
+    <string name="select_dhikr">যিকির নির্বাচন করুন</string>
+    <string name="unlimited">সীমাহীন</string>
+    <string name="unlimited_symbol">∞ সীমাহীন</string>
+
+    <!-- Dhikr Selection Sheet -->
+    <string name="dhikr_mode_selection">যিকির ও মোড নির্বাচন</string>
+    <string name="mode_33x3_title">৩৩ × ৩ মোড</string>
+    <string name="mode_33x3_subtitle">সুবহানাল্লাহ (৩৩) → আলহামদুলিল্লাহ (৩৩) → আল্লাহু আকবার (৩৩)</string>
+    <string name="target_count">টার্গেট সংখ্যা</string>
+    <string name="target_prefix">টার্গেট: %1$d</string>
+    <string name="custom_target_chip">কাস্টম…</string>
+    <string name="builtin_dhikr_presets">বিল্ট-ইন যিকির প্রিসেট</string>
+    <string name="add_custom">কাস্টম যোগ করুন</string>
+    <string name="custom_dhikr">কাস্টম যিকির</string>
+    <string name="create_custom_dhikr">নতুন কাস্টম যিকির তৈরি করুন</string>
+    <string name="arabic_dhikr_text_label">আরবি / যিকির টেক্সট</string>
+    <string name="arabic_dhikr_text_placeholder">যেমন: سُبْحَانَ اللَّهِ</string>
+    <string name="name_transliteration_label">নাম / উচ্চারণ</string>
+    <string name="name_transliteration_placeholder">যেমন: সুবহানাল্লাহ</string>
+    <string name="target_count_label">টার্গেট সংখ্যা</string>
+    <string name="save">সংরক্ষণ করুন</string>
+    <string name="set_custom_target">কাস্টম টার্গেট নির্ধারণ করুন</string>
+    <string name="target_number_label">টার্গেট সংখ্যা</string>
+    <string name="apply">প্রয়োগ করুন</string>
+    <string name="target_label_format">%1$s • টার্গেট: %2$d</string>
+    <string name="selected">নির্বাচিত</string>
+    <string name="delete">মুছে ফেলুন</string>
+
+    <!-- Categories -->
+    <string name="category_all">সকল</string>
+    <string name="category_essential">জরুরি</string>
+    <string name="category_forgiveness">ক্ষমা প্রার্থনা</string>
+    <string name="category_salawat">দুরূদ</string>
+    <string name="category_supplication">দোআ</string>
+    <string name="category_praise">প্রশংসা</string>
+    <string name="search_dhikr_placeholder">যিকির বা অর্থ অনুসন্ধান করুন…</string>
+
+    <!-- History Screen -->
+    <string name="history_statistics">ইতিহাস ও পরিসংখ্যান</string>
+    <string name="clear_history">ইতিহাস মুছুন</string>
+    <string name="back">পেছনে</string>
+    <string name="summary">সারসংক্ষেপ</string>
+    <string name="today">আজ</string>
+    <string name="yesterday">গতকাল</string>
+    <string name="all_time">সর্বমোট</string>
+    <string name="sessions_count_format">%1$dটি সেশন</string>
+    <string name="completed_count_format">%1$dটি সম্পন্ন</string>
+    <string name="activity_log">কার্যক্রম লগ</string>
+    <string name="no_history_yet">এখনও কোনো ইতিহাস সংরক্ষিত হয়নি</string>
+    <string name="no_history_desc">সম্পন্ন করা যিকির সেশনগুলো এখানে প্রদর্শিত হবে।</string>
+    <string name="clear_history_dialog_title">সকল ইতিহাস মুছে ফেলবেন?</string>
+    <string name="clear_history_dialog_desc">এটি স্থায়ীভাবে আপনার সমস্ত রেকর্ড করা যিকির লগ ও পরিসংখ্যান মুছে ফেলবে।</string>
+    <string name="clear_all">সব মুছুন</string>
+    <string name="history_time_round_format">%1$s • রাউন্ড %2$d</string>
+
+    <!-- Settings Screen -->
+    <string name="back_tap_counting">ব্যাক ট্যাপ গণনা</string>
+    <string name="enable_back_tap">ব্যাক ট্যাপ সক্রিয় করুন</string>
+    <string name="enable_back_tap_desc">গণনা বৃদ্ধি করতে ফোনের পেছনে আলতো চাপ দিন</string>
+    <string name="detection_sensitivity">শনাক্তকরণ সংবেদনশীলতা</string>
+    <string name="test_calibrate_detector">ডিটেক্টর পরীক্ষা ও ক্যালিব্রেট করুন</string>
+    <string name="hardware_both_active">হার্ডওয়্যার: অ্যাক্সিলারোমিটার + জাইরোস্কোপ সক্রিয়</string>
+    <string name="hardware_accel_active">হার্ডওয়্যার: অ্যাক্সিলারোমিটার সক্রিয় (জাইরোস্কোপ অনুপস্থিত)</string>
+    <string name="hardware_not_supported">হার্ডওয়্যার: এই ডিভাইসে মোশন সেন্সর সমর্থিত নয়</string>
+    <string name="tactile_sound_feedback">স্পর্শ ও শব্দ প্রতিক্রিয়া</string>
+    <string name="haptic_vibration">হ্যাপটিক কম্পন</string>
+    <string name="haptic_vibration_desc">প্রতিটি গণনা ও সমাপ্তিতে মৃদু স্পন্দন</string>
+    <string name="haptic_intensity">কম্পনের তীব্রতা</string>
+    <string name="audio_click">অডিও ক্লিক</string>
+    <string name="audio_click_desc">হালকা নেটিভ সিস্টেম ক্লিক শব্দ (ডিফল্ট বন্ধ)</string>
+    <string name="customization_preferences">ডিসপ্লে ও নিয়ন্ত্রণ</string>
+    <string name="keep_screen_awake">স্ক্রিন সজাগ রাখুন</string>
+    <string name="keep_screen_awake_desc">গণনার সময় ফোনের স্ক্রিন বন্ধ হওয়া রোধ করুন</string>
+    <string name="volume_key_counting">ভলিউম বাটন গণনা</string>
+    <string name="volume_key_counting_desc">বাস্তব অভিজ্ঞতায় ভলিউম বোতাম চেপে গণনা করুন</string>
+    <string name="islamic_themes">ইসলামিক থিম</string>
+    <string name="privacy_philosophy">গোপনীয়তা ও দর্শন</string>
+    <string name="offline_private_title">১০০% অফলাইন ও সম্পূর্ণ ব্যক্তিগত</string>
+    <string name="offline_private_desc">তাসবীহ ট্যাপ কোনো ইন্টারনেট পারমিশন, অ্যানালিটিক্স, বিজ্ঞাপন বা ট্র্যাকিং ছাড়া সম্পূর্ণ অফলাইনে চলে। আপনার সমস্ত গণনা ও ইতিহাস সম্পূর্ণ সুরক্ষিতভাবে কেবল আপনার ফোনেই থাকে।</string>
+    <string name="app_version">তাসবীহ ট্যাপ v1.2</string>
+
+    <!-- Back Tap Test Dialog -->
+    <string name="back_tap_calibration">ব্যাক-ট্যাপ ক্যালিব্রেশন</string>
+    <string name="sensitivity_chip_low">কম</string>
+    <string name="sensitivity_chip_medium">মাঝারি</string>
+    <string name="sensitivity_chip_high">উচ্চ</string>
+    <string name="test_tap_now_instruction">শনাক্তকরণ পরীক্ষা করতে আপনার ফোনের পেছনে দুইবার আলতো করে ট্যাপ করুন।</string>
+    <string name="taps_detected_format">শনাক্তকৃত ট্যাপ: %1$d</string>
+    <string name="tap_confirmed">ট্যাপ নিশ্চিত হয়েছে!</string>
+    <string name="waiting_for_back_tap">ব্যাক ট্যাপের জন্য অপেক্ষা করা হচ্ছে…</string>
+    <string name="calibrated_done">ক্যালিব্রেশন সম্পন্ন</string>
+
+    <!-- Theme Names & Descriptions -->
+    <string name="theme_emerald_name">মরকত (Emerald)</string>
+    <string name="theme_emerald_desc">গভীর সবুজ ও উষ্ণ সোনালী</string>
+    <string name="theme_midnight_name">মিডনাইট (Midnight)</string>
+    <string name="theme_midnight_desc">গভীর নীল ও হালকা ফিরোজা</string>
+    <string name="theme_sand_name">বালুকা (Sand)</string>
+    <string name="theme_sand_desc">উষ্ণ বাদামী ও ব্রোঞ্জ সোনালী</string>
+    <string name="theme_night_name">রজনী (Night)</string>
+    <string name="theme_night_desc">পিওর ওলেড ব্ল্যাক ও মৃদু সোনালী</string>
+    <string name="theme_rose_gold_name">গোলাপ স্বর্ণ (Rose Gold)</string>
+    <string name="theme_rose_gold_desc">গভীর প্লাম ও দ্যুতিময় গোলাপী</string>
+    <string name="theme_royal_amber_name">রাজকীয় আম্বর (Royal Amber)</string>
+    <string name="theme_royal_amber_desc">উজ্জ্বল সোনালী আম্বর ও কালো</string>
+    <string name="theme_system_name">সিস্টেম (System)</string>
+    <string name="theme_system_desc">সিস্টেমের ডার্ক/লাইট মোড অনুসরণ করে</string>
+
+    <!-- Dhikr Names & Meanings (Bangla) -->
+    <string name="dhikr_subhanallah_name">সুবহানাল্লাহ</string>
+    <string name="dhikr_subhanallah_meaning">আল্লাহ অতি পবিত্র ও মহিমান্বিত</string>
+    <string name="dhikr_alhamdulillah_name">আলহামদুলিল্লাহ</string>
+    <string name="dhikr_alhamdulillah_meaning">সকল প্রশংসা কেবলই আল্লাহর জন্য</string>
+    <string name="dhikr_allahu_akbar_name">আল্লাহু আকবার</string>
+    <string name="dhikr_allahu_akbar_meaning">আল্লাহ সর্বশ্রেষ্ঠ</string>
+    <string name="dhikr_tahlil_name">লা ইলাহা ইল্লাল্লাহ</string>
+    <string name="dhikr_tahlil_meaning">আল্লাহ ব্যতীত কোনো উপাস্য নেই</string>
+    <string name="dhikr_istighfar_name">আস্তাগফিরুল্লাহ</string>
+    <string name="dhikr_istighfar_meaning">আমি আল্লাহর কাছে ক্ষমা প্রার্থনা করছি</string>
+    <string name="dhikr_salawat_name">দুরূদ শরীফ (সালাওয়াত)</string>
+    <string name="dhikr_salawat_meaning">মুহাম্মদ (সা.)-এর উপর শান্তি ও রহমত বর্ষিত হোক</string>
+    <string name="dhikr_hawqala_name">লা হাওলা ওয়া লা কুওয়াতা ইল্লা বিল্লাহ</string>
+    <string name="dhikr_hawqala_meaning">আল্লাহর সাহায্য ছাড়া পাপ থেকে বাঁচার ও নেক আমল করার কোনো শক্তি নেই</string>
+    <string name="dhikr_hasbunallah_name">হাসবুনাল্লাহু ওয়া নি\'মাল ওয়াকিল</string>
+    <string name="dhikr_hasbunallah_meaning">আমাদের জন্য আল্লাহই যথেষ্ট এবং তিনি কতই না উত্তম কর্মবিধায়ক</string>
+    <string name="dhikr_subhanallahi_wa_bihamdihi_name">সুবহানাল্লাহি ওয়া বিহামদিহি</string>
+    <string name="dhikr_subhanallahi_wa_bihamdihi_meaning">মহিমাময় আল্লাহর প্রশংসা ও পবিত্রতা ঘোষণা করছি</string>
+    <string name="dhikr_subhanallah_alazeem_name">সুবহানাল্লাহিল আজিম</string>
+    <string name="dhikr_subhanallah_alazeem_meaning">মহান ও শ্রেষ্ঠ আল্লাহ মহাপবিত্র</string>
+    <string name="dhikr_sayyidul_istighfar_name">সাইয়্যিদুল ইস্তিগফার</string>
+    <string name="dhikr_sayyidul_istighfar_meaning">তওবা ও ক্ষমার শ্রেষ্ঠতম প্রধান দোআ</string>
+    <string name="dhikr_yunus_dua_name">দোআয়ে ইউনুস (আয়াতুল কারীমা)</string>
+    <string name="dhikr_yunus_dua_meaning">আপনি ব্যতীত কোনো উপাস্য নেই, আপনি পরম পবিত্র, নিশ্চয়ই আমি অপরাধীদের অন্তর্ভুক্ত</string>
+
+    <!-- Sensitivity Names -->
+    <string name="sensitivity_low">কম (দৃঢ় ট্যাপ)</string>
+    <string name="sensitivity_medium">মাঝারি (স্ট্যান্ডার্ড)</string>
+    <string name="sensitivity_high">উচ্চ (হালকা ট্যাপ)</string>
+
+    <!-- Haptic Strength Names -->
+    <string name="haptic_light">মৃদু</string>
+    <string name="haptic_medium">মাঝারি</string>
+    <string name="haptic_strong">উচ্চ</string>
+
+    <string name="app_credit">[made with ♥ by ©munabbiRMushran]</string>
+</resources>
