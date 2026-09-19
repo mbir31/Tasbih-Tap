@@ -1,0 +1,25 @@
+{
+  "name": "Tasbih Tap - তসবীহ ট্যাপ",
+  "short_name": "Tasbih Tap",
+  "description": "আধুনিক অফলাইন ইসলামিক তাসবীহ ও যিকির কাউন্টার। ব্যাক-ট্যাপ, ট্যাকটাইল বাটন, হ্যাপটিক ভাইব্রেশন ও ৩৩×৩ সুন্নাহ মোড।",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0a1914",
+  "theme_color": "#0d382b",
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

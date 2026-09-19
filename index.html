@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="bn" data-theme="emerald">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0d382b">
+  <meta name="description" content="Tasbih Tap - আধুনিক অফলাইন ইসলামিক তাসবীহ ও যিকির কাউন্টার।">
+  <title>Tasbih Tap (তসবীহ ট্যাপ) - Modern Islamic Dhikr Counter</title>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="stylesheet" href="./style.css">
+  <link rel="apple-touch-icon" href="./icon-192.png">
+</head>
+<body>
+
+  <div id="app-container">
+    
+    <!-- Top Action Cards -->
+    <header class="top-header">
+      <!-- Active Dhikr Selector Card -->
+      <div id="dhikr-selector-card" class="dhikr-card" title="যিকির পরিবর্তন করুন">
+        <div class="dhikr-card-title-row">
+          <span id="dhikr-card-title" class="dhikr-card-title">সুবহানাল্লাহ</span>
+          <span id="dhikr-card-arabic" class="dhikr-card-arabic">سُبْحَانَ اللَّهِ</span>
+        </div>
+        <div class="dhikr-card-meta">
+          <span id="dhikr-card-target" class="badge-target">লক্ষ্য: ৩৩</span>
+          <span style="font-size: 0.72rem; color: var(--text-muted);">▼ পরিবর্তন</span>
+        </div>
+      </div>
+
+      <!-- History Button Card -->
+      <button id="history-btn" class="header-action-btn" title="হিস্ট্রি ও পরিসংখ্যান" aria-label="History">
+        <svg viewBox="0 0 24 24">
+          <path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/>
+        </svg>
+      </button>
+
+      <!-- Settings Button Card -->
+      <button id="settings-btn" class="header-action-btn" title="সেটিংস" aria-label="Settings">
+        <svg viewBox="0 0 24 24">
+          <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+        </svg>
+      </button>
+    </header>
+
+    <!-- Mode / Round Banner -->
+    <div id="mode-banner" class="mode-banner">
+      রাউন্ড ১
+    </div>
+
+    <!-- Main Luminous Circular Counter -->
+    <main id="counter-canvas" class="counter-canvas" title="গণনা করতে যেকোনো স্থানে ট্যাপ করুন">
+      <div id="circular-container" class="circular-container">
+        <!-- SVG Progress Ring -->
+        <svg class="progress-ring" viewBox="0 0 270 270">
+          <circle class="progress-ring-bg" cx="135" cy="135" r="125" />
+          <circle id="progress-ring-indicator" class="progress-ring-indicator" cx="135" cy="135" r="125" />
+        </svg>
+
+        <div class="counter-content">
+          <div id="arabic-main" class="arabic-main">سُبْحَانَ اللَّهِ</div>
+          <div id="translit-main" class="translit-main">আল্লাহ অতি পবিত্র ও মহিমান্বিত</div>
+          <div id="count-number" class="count-number">0</div>
+          <div id="target-badge-main" class="target-badge-main">লক্ষ্য: ৩৩</div>
+        </div>
+      </div>
+
+      <!-- Undo & Reset Controls -->
+      <div class="controls-row">
+        <button id="undo-btn" class="pill-btn" title="একটি গণনা কমান">
+          <svg viewBox="0 0 24 24"><path d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.2 3.16-1.98 5.12-1.98 3.4 0 6.27 2.12 7.38 5.14l2.42-.8C20.67 10.97 16.97 8 12.5 8z"/></svg>
+          আনডু
+        </button>
+        <button id="reset-btn" class="pill-btn" title="কাউন্টার শূন্য করুন">
+          <svg viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+          রিসেট
+        </button>
+      </div>
+    </main>
+
+    <!-- Bottom Thumb Bar & Keyboard Assistance -->
+    <div class="count-assist-bar">
+      <button id="big-thumb-btn" class="big-thumb-btn" title="এখানে ট্যাপ করে গণনা করুন">
+        <span>📿</span>
+        <span id="thumb-btn-text">এখানে ট্যাপ করুন বা পেছনে ট্যাপ করুন</span>
+      </button>
+      <div id="rocker-hint-text" class="helper-text">
+        ভলিউম বাটন, কিবোর্ড (Space / ↑) বা স্ক্রিনে ট্যাপ করে গণনা করুন
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Floating Edge Rocker Keys (Volume Button Simulator) -->
+  <aside class="floating-rocker" title="হার্ডওয়্যার ভলিউম রকার সিমুলেটর">
+    <button id="rocker-plus" class="rocker-btn" title="ভলিউম আপ (+) কাউন্ট">
+      <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+      <span>VOL+</span>
+    </button>
+    <button id="rocker-minus" class="rocker-btn" title="ভলিউম ডাউন (-) আনডু">
+      <svg viewBox="0 0 24 24"><path d="M19 13H5v-2h14v2z"/></svg>
+      <span>VOL-</span>
+    </button>
+  </aside>
+
+  <!-- Milestone Toast / Target Alert -->
+  <div id="milestone-toast" class="milestone-toast">
+    আলহামদুলিল্লাহ! লক্ষ্য সম্পন্ন!
+  </div>
+
+  <!-- DHIKR SELECTION MODAL SHEET -->
+  <div id="dhikr-sheet-modal" class="modal-overlay">
+    <div class="sheet-container">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <h3 class="sheet-title">যিকির ও মোড নির্বাচন</h3>
+        <button class="close-btn close-modal-btn">&times;</button>
+      </div>
+
+      <!-- Quick Mode Cards: 33x3 & Unlimited -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+        <div id="mode-33x3-card" class="dhikr-item-card" style="flex-direction: column; align-items: flex-start;">
+          <span style="font-weight: 800; color: var(--accent-gold);">৩৩ × ৩ সুন্নাহ মোড</span>
+          <span style="font-size: 0.72rem; color: var(--text-muted); margin-top: 4px;">সুবহানাল্লাহ ৩৩ → আলহামদুলিল্লাহ ৩৩ → আল্লাহু আকবার ৩৪</span>
+        </div>
+        <div id="mode-unlimited-btn" class="dhikr-item-card" style="flex-direction: column; align-items: flex-start;">
+          <span style="font-weight: 800; color: var(--accent-primary);">∞ আনলিমিটেড মোড</span>
+          <span style="font-size: 0.72rem; color: var(--text-muted); margin-top: 4px;">মুক্ত যিকির ও অবাধ ক্ষমা প্রার্থনা</span>
+        </div>
+      </div>
+
+      <!-- Search & Category Filters -->
+      <input type="text" id="dhikr-search-input" class="search-input" placeholder="যিকির বা অর্থ অনুসন্ধান করুন…">
+
+      <div class="category-chips">
+        <button class="chip active" data-cat="all">সকল</button>
+        <button class="chip" data-cat="essential">প্রয়োজনীয়</button>
+        <button class="chip" data-cat="praise">প্রশংসা</button>
+        <button class="chip" data-cat="forgiveness">ইস্তিগফার</button>
+        <button class="chip" data-cat="salawat">সালাওয়াত</button>
+        <button class="chip" data-cat="supplication">দু'আ</button>
+      </div>
+
+      <!-- Dhikr Presets List -->
+      <div id="dhikr-list-container" class="dhikr-items-list"></div>
+    </div>
+  </div>
+
+  <!-- HISTORY MODAL SHEET -->
+  <div id="history-modal" class="modal-overlay">
+    <div class="sheet-container">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <h3 class="sheet-title">যিকির ইতিহাস ও পরিসংখ্যান</h3>
+        <button class="close-btn close-modal-btn">&times;</button>
+      </div>
+
+      <div id="history-items-container" class="dhikr-items-list"></div>
+
+      <button id="clear-history-btn" class="pill-btn" style="width: 100%; justify-content: center; margin-top: 10px; color: var(--danger-color); border-color: rgba(239,68,68,0.3);">
+        ইতিহাস মুছে ফেলুন
+      </button>
+    </div>
+  </div>
+
+  <!-- SETTINGS MODAL SHEET -->
+  <div id="settings-modal" class="modal-overlay">
+    <div class="sheet-container">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <h3 class="sheet-title">সেটিংস ও কন্ট্রোল</h3>
+        <button class="close-btn close-modal-btn">&times;</button>
+      </div>
+
+      <!-- Back Tap Option -->
+      <div class="setting-row">
+        <div class="setting-info">
+          <span class="setting-label">মোবাইলের পেছনে ট্যাপ (Back-Tap)</span>
+          <span class="setting-desc">মোবাইল পেছনে দুইবার আলতো ট্যাপ করে কাউন্ট</span>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="toggle-back-tap" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <!-- Haptic Vibration -->
+      <div class="setting-row">
+        <div class="setting-info">
+          <span class="setting-label">হ্যাপটিক ভাইব্রেশন</span>
+          <span class="setting-desc">প্রতিটি গণনায় সূক্ষ্ম ভাইব্রেশন ফিডব্যাক</span>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="toggle-haptic" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <!-- Sound Click -->
+      <div class="setting-row">
+        <div class="setting-info">
+          <span class="setting-label">কাঠের তসবীহ ক্লিক শব্দ</span>
+          <span class="setting-desc">ন্যাচারাল ক্লিক অডিও এফেক্ট</span>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="toggle-sound">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <!-- Keep Screen Awake -->
+      <div class="setting-row">
+        <div class="setting-info">
+          <span class="setting-label">স্ক্রিন অন রাখুন (Wake Lock)</span>
+          <span class="setting-desc">যিকিরের সময় স্ক্রিন বন্ধ হবে না</span>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="toggle-wakelock" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <!-- Language Toggle -->
+      <div class="setting-row">
+        <div class="setting-info">
+          <span class="setting-label">ভাষা পরিবর্তন (Language)</span>
+          <span class="setting-desc">বাংলা / English</span>
+        </div>
+        <button id="lang-toggle-btn" class="pill-btn">বাংলা ⇄ EN</button>
+      </div>
+
+      <!-- Themes -->
+      <div style="margin-top: 10px;">
+        <span class="setting-label">ইসলামিক থিম নির্বাচন</span>
+        <div class="theme-grid">
+          <div class="theme-card active" data-theme="emerald">
+            <div class="theme-preview-dot" style="background: #10b981;"></div>
+            <span>এমেরাল্ড</span>
+          </div>
+          <div class="theme-card" data-theme="midnight">
+            <div class="theme-preview-dot" style="background: #38bdf8;"></div>
+            <span>মিডনাইট</span>
+          </div>
+          <div class="theme-card" data-theme="sand">
+            <div class="theme-preview-dot" style="background: #d97706;"></div>
+            <span>মদিনা স্যান্ড</span>
+          </div>
+          <div class="theme-card" data-theme="night">
+            <div class="theme-preview-dot" style="background: #262626; border-color: #d4af37;"></div>
+            <span>ওলেড নাইট</span>
+          </div>
+          <div class="theme-card" data-theme="rosegold">
+            <div class="theme-preview-dot" style="background: #f472b6;"></div>
+            <span>রোজ গোল্ড</span>
+          </div>
+          <div class="theme-card" data-theme="royalamber">
+            <div class="theme-preview-dot" style="background: #f59e0b;"></div>
+            <span>রয়্যাল অ্যাম্বার</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 20px; font-size: 0.72rem; color: var(--text-muted); text-align: center;">
+        ১০০% অফলাইন • কোনো বিজ্ঞাপন নেই • প্রাইভেট ও নিরাপদ<br>
+        <strong>[made with ♥ by ©munabbiRMushran]</strong>
+      </div>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
