@@ -194,6 +194,18 @@ body {
   border-color: var(--border-strong);
 }
 
+.install-btn-pulse {
+  background: linear-gradient(135deg, var(--surface-color) 0%, rgba(16, 185, 129, 0.25) 100%);
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+  animation: installGlow 2.5s infinite alternate;
+}
+
+@keyframes installGlow {
+  0% { box-shadow: 0 4px 14px rgba(16, 185, 129, 0.2); }
+  100% { box-shadow: 0 0 20px var(--ring-glow); }
+}
+
 .header-action-btn svg {
   width: 22px;
   height: 22px;
@@ -630,6 +642,38 @@ body {
 .setting-desc {
   font-size: 0.78rem;
   color: var(--text-muted);
+}
+
+/* Segmented Control for Sensitivity */
+.segmented-control {
+  display: inline-flex;
+  background: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 3px;
+  gap: 2px;
+}
+
+.seg-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  padding: 6px 12px;
+  border-radius: 9px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.seg-btn:active {
+  transform: scale(0.95);
+}
+
+.seg-btn.active {
+  background: var(--accent-gold);
+  color: #000;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
 }
 
 /* Switch Toggle */

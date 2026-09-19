@@ -10,13 +10,19 @@
 # 📿 Tasbih Tap (تسبيح تـاب)
 ### **Modern, Mindful & Distraction-Free Islamic PWA (Progressive Web App)**
 
+[![Live Demo](https://img.shields.io/badge/Live%20App-tasbihtap.vercel.app-00dfa2?style=for-the-badge&logo=vercel&logoColor=black)](https://tasbihtap.vercel.app/)
 [![PWA](https://img.shields.io/badge/App-Progressive%20Web%20App-purple?style=for-the-badge&logo=pwa&logoColor=white)](https://web.dev/progressive-web-apps/)
-[![Platform](https://img.shields.io/badge/Platform-iOS%20%7C%20Android%20%7C%20Desktop-blue?style=for-the-badge)](https://github.com)
-[![Vercel Ready](https://img.shields.io/badge/Deploy-Vercel-black?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com)
-[![Offline First](https://img.shields.io/badge/Offline-100%25%20Service%20Worker-success?style=for-the-badge)](https://github.com)
-[![Ad-Free](https://img.shields.io/badge/Ads-100%25%20Ad--Free-brightgreen?style=for-the-badge)](https://github.com)
-[![Privacy](https://img.shields.io/badge/Privacy-Zero%20Tracking-blue?style=for-the-badge)](https://github.com)
+[![Platform](https://img.shields.io/badge/Platform-iOS%20%7C%20Android%20%7C%20Desktop-blue?style=for-the-badge)](https://tasbihtap.vercel.app/)
+[![Vercel Hosted](https://img.shields.io/badge/Deploy-Vercel-black?style=for-the-badge&logo=vercel&logoColor=white)](https://tasbihtap.vercel.app/)
+[![Offline First](https://img.shields.io/badge/Offline-100%25%20Service%20Worker-success?style=for-the-badge)](https://tasbihtap.vercel.app/)
+[![Ad-Free](https://img.shields.io/badge/Ads-100%25%20Ad--Free-brightgreen?style=for-the-badge)](https://tasbihtap.vercel.app/)
+[![Privacy](https://img.shields.io/badge/Privacy-Zero%20Tracking-blue?style=for-the-badge)](https://tasbihtap.vercel.app/)
 [![License](https://img.shields.io/badge/License-MIT-amber?style=for-the-badge)](LICENSE)
+
+<br/>
+
+### 🌐 **Live Web App / সরাসরি ব্যবহার করুন**:  
+👉 **[https://tasbihtap.vercel.app](https://tasbihtap.vercel.app/)** 👈
 
 <br/>
 
@@ -52,62 +58,48 @@ Traditional counter apps are cluttered with intrusive full-screen video ads, noi
 
 ---
 
-## 🚀 Live Deployment on Vercel
+## 🚀 Live Production URL
 
-Tasbih Tap is a pure, zero-dependency static PWA that deploys instantly on **Vercel** with zero build configuration!
+The progressive web app is deployed and available globally at:
 
-### Option 1: Deploy with Vercel CLI (Fastest)
-
-```bash
-# 1. Install Vercel CLI (if not already installed)
-npm install -g vercel
-
-# 2. Login to your Vercel account
-vercel login
-
-# 3. Deploy from the repository root
-vercel --prod
-```
-
-### Option 2: Deploy via Vercel Web Dashboard
-
-1. Push your repository to **GitHub**.
-2. Go to [vercel.com/new](https://vercel.com/new).
-3. Import your **tasbih-tap** repository.
-4. Leave **Framework Preset** as **Other** (Static HTML/JS).
-5. Leave Root Directory as `./` and click **Deploy**!
-6. Your app is live with SSL, global CDN, and automatic PWA installation!
+🔗 **[https://tasbihtap.vercel.app](https://tasbihtap.vercel.app/)**
 
 ---
 
 ## 📲 How to Install as an App (PWA)
 
 ### On iPhone & iPad (iOS Safari)
-1. Open your deployed Vercel URL in **Safari**.
-2. Tap the **Share** button (box with an arrow pointing up).
+1. Open **[https://tasbihtap.vercel.app](https://tasbihtap.vercel.app/)** in **Safari**.
+2. Tap the **Share** button (the square icon with an arrow pointing up).
 3. Scroll down and tap **"Add to Home Screen"** (হোম স্ক্রিনে যোগ করুন).
 4. Tap **Add**. The app will now appear on your home screen and open full-screen like a native iOS app!
 
 ### On Android (Chrome / Edge / Samsung Internet)
-1. Open your deployed URL in **Chrome**.
-2. Tap the **Install App** banner at the bottom or open the menu (⋮) and tap **"Install application"** / **"Add to Home screen"**.
-3. Tasbih Tap will be added to your app drawer and home screen.
+1. Open **[https://tasbihtap.vercel.app](https://tasbihtap.vercel.app/)** in **Chrome**.
+2. Tap the **"Add Tasbih Tap to Home screen"** / **"Install app"** banner, or tap the top-right menu (⋮) and select **"Install application"** / **"Add to Home screen"**.
+3. Tasbih Tap will be added to your app drawer and home screen with an app icon.
 
 ### On PC / Mac / Chromebook (Chrome or Edge)
-1. Look for the **Install icon** in the browser URL address bar (top right).
-2. Click **Install**. Launch it anytime as an independent desktop app.
+1. Open **[https://tasbihtap.vercel.app](https://tasbihtap.vercel.app/)** in **Google Chrome** or **Microsoft Edge**.
+2. Look for the **Install icon** in the address bar (top right).
+3. Click **Install**. You can now launch it directly from your desktop or dock!
 
 ---
 
 ## ✨ Standout Features
 
-### 📲 1. Revolutionary "Smart Back-Tap" Counting
+### 📲 1. Revolutionary "Smart Back-Tap" with Sensitivity Control
 *Count your Dhikr without looking at your screen.*
+- **Customizable Sensitivity Levels**: Choose between **Low (কম)**, **Medium (মাঝারি)**, or **High (বেশি)** sensitivity in Settings to match your phone's weight and cover case.
 - **Accelerometer Shockwave Filtering**: Utilizes the browser's `DeviceMotionEvent` with dynamic Z-axis delta impulse calculations and debounce safeguards to register gentle double-taps on the back of your phone.
 - **Eyes-Closed Ibadah**: Close your eyes during night prayer (Tahajjud), sit in the Masjid, or commute while your phone rests naturally in your palm.
 - **Universal Support**: Full motion sensor permission support for iOS Safari and Android Chrome.
 
-### 🔘 2. Multiple Flexible Ways to Count
+### ⚡ 2. One-Tap PWA App Installation
+- **Instant 1-Tap Header Button**: Prominent install button on the top header and in Settings that triggers native PWA installation via `beforeinstallprompt` with zero friction.
+- **Works Offline**: Once installed, open it anytime like a native mobile app even without an internet connection.
+
+### 🔘 3. Multiple Flexible Ways to Count
 Designed for complete physical comfort in any posture:
 - **Luminous Circular Counter**: Tap anywhere on the large serene center canvas.
 - **Big One-Handed Thumb Button**: Wide, tactile button at the bottom for easy one-handed thumb tapping.

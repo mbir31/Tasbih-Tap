@@ -408,6 +408,47 @@ function renderUI() {
   document.getElementById('rocker-hint-text').textContent = isBn 
     ? "ভলিউম বাটন, কিবোর্ড (Space / ↑) বা স্ক্রিনে ট্যাপ করে গণনা করুন"
     : "Use Volume Rocker, Keyboard (Space/↑), or Tap to count";
+
+  // Back-tap sensitivity UI sync
+  const sensitivityRow = document.getElementById('back-tap-sensitivity-row');
+  if (sensitivityRow) {
+    sensitivityRow.style.display = state.backTapEnabled ? 'flex' : 'none';
+  }
+  const sensLabel = document.getElementById('sensitivity-label');
+  const sensDesc = document.getElementById('sensitivity-desc');
+  if (sensLabel) {
+    sensLabel.textContent = isBn ? "ব্যাক-ট্যাপ সেনসিটিভিটি" : "Back-Tap Sensitivity";
+  }
+  if (sensDesc) {
+    sensDesc.textContent = isBn ? "আপনার ডিভাইসের জন্য ট্যাপের মাত্রা নির্ধারণ করুন" : "Adjust sensor sensitivity for your device";
+  }
+  document.querySelectorAll('#sensitivity-segmented .seg-btn').forEach(btn => {
+    const s = btn.getAttribute('data-sens');
+    if (isBn) {
+      btn.textContent = s === 'low' ? 'কম' : (s === 'high' ? 'বেশি' : 'মাঝারি');
+    } else {
+      btn.textContent = s === 'low' ? 'Low' : (s === 'high' ? 'High' : 'Medium');
+    }
+    if (s === state.backTapSensitivity) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+
+  // Settings Install texts
+  const instTitle = document.getElementById('settings-install-title');
+  const instDesc = document.getElementById('settings-install-desc');
+  const instBtn = document.getElementById('settings-install-btn');
+  if (instTitle) {
+    instTitle.textContent = isBn ? "মোবাইলে অ্যাপ ইনস্টল করুন" : "Install App on Device";
+  }
+  if (instDesc) {
+    instDesc.textContent = isBn ? "হোম স্ক্রিন থেকে সরাসরি অফলাইনে ব্যবহার করতে ১-ট্যাপে ইনস্টল করুন" : "1-Tap install to use offline directly from your home screen";
+  }
+  if (instBtn) {
+    instBtn.textContent = isBn ? "ইনস্টল" : "Install";
+  }
 }
 
 // --- HARDWARE & DEVICE MOTION BACK-TAP DETECTION ---
@@ -750,11 +791,88 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // Back-Tap Sensitivity selection
+  document.querySelectorAll('#sensitivity-segmented .seg-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const sens = e.target.getAttribute('data-sens');
+      if (sens && SENSITIVITIES[sens]) {
+        state.backTapSensitivity = sens;
+        document.querySelectorAll('#sensitivity-segmented .seg-btn').forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        savePersistedState();
+        showToast(state.language === 'bn' ? `সেনসিটিভিটি: ${e.target.textContent}` : `Sensitivity: ${sens.toUpperCase()}`);
+      }
+    });
+  });
+
   // Language toggle (Bangla / English)
   document.getElementById('lang-toggle-btn')?.addEventListener('click', () => {
     state.language = state.language === 'bn' ? 'en' : 'bn';
     renderUI();
     savePersistedState();
+  });
+
+  // --- ONE-TAP PWA INSTALLATION PROMPT ---
+  let deferredInstallPrompt = null;
+  const headerInstallBtn = document.getElementById('install-app-btn');
+  const settingsInstallBtn = document.getElementById('settings-install-btn');
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    // Prevent default mini-infobar or banner
+    e.preventDefault();
+    deferredInstallPrompt = e;
+    // Show one-tap install button in top header and enable in settings
+    if (headerInstallBtn) headerInstallBtn.style.display = 'flex';
+    console.log("PWA beforeinstallprompt captured, ready for 1-tap install");
+  });
+
+  // Check if app is already running as installed standalone PWA
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+  if (isStandalone) {
+    if (headerInstallBtn) headerInstallBtn.style.display = 'none';
+    const settingsSection = document.getElementById('settings-install-section');
+    if (settingsSection) settingsSection.style.display = 'none';
+  } else {
+    // Even if beforeinstallprompt is pending, show header button so users can tap anytime
+    if (headerInstallBtn) headerInstallBtn.style.display = 'flex';
+  }
+
+  async function triggerOneTapInstall() {
+    if (deferredInstallPrompt) {
+      deferredInstallPrompt.prompt();
+      const { outcome } = await deferredInstallPrompt.userChoice;
+      console.log(`User response to install prompt: ${outcome}`);
+      if (outcome === 'accepted') {
+        showToast(state.language === 'bn' ? "ইনস্টল সম্পন্ন হচ্ছে! জাযাকাল্লাহু খাইরান" : "Installing app... JazakAllah Khair!");
+        if (headerInstallBtn) headerInstallBtn.style.display = 'none';
+        const settingsSection = document.getElementById('settings-install-section');
+        if (settingsSection) settingsSection.style.display = 'none';
+      }
+      deferredInstallPrompt = null;
+    } else {
+      // Fallback instruction for iOS Safari or browsers without beforeinstallprompt
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      if (isIOS) {
+        alert(state.language === 'bn' 
+          ? "আইফোনে ইনস্টল করতে:\n১. Safari এর নিচে Share বাটনে (স্কয়ার আইকন) ট্যাপ করুন।\n২. নিচে স্ক্রোল করে 'Add to Home Screen' চাপুন।" 
+          : "To install on iPhone:\n1. Tap the Share button in Safari.\n2. Scroll and select 'Add to Home Screen'.");
+      } else {
+        alert(state.language === 'bn'
+          ? "ব্রাউজারের মেনু (⋮) থেকে 'Install application' বা 'Add to Home screen' নির্বাচন করুন।"
+          : "Tap browser menu (⋮) and select 'Install app' or 'Add to Home screen'.");
+      }
+    }
+  }
+
+  headerInstallBtn?.addEventListener('click', triggerOneTapInstall);
+  settingsInstallBtn?.addEventListener('click', triggerOneTapInstall);
+
+  window.addEventListener('appinstalled', () => {
+    console.log('Tasbih Tap PWA installed successfully!');
+    if (headerInstallBtn) headerInstallBtn.style.display = 'none';
+    const settingsSection = document.getElementById('settings-install-section');
+    if (settingsSection) settingsSection.style.display = 'none';
+    showToast(state.language === 'bn' ? "অ্যাপ সফলভাবে ইনস্টল হয়েছে!" : "App installed successfully!");
   });
 
   // Register PWA Service Worker
