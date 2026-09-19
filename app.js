@@ -4,8 +4,9 @@
  * 33x3 Sunnah loop, Web Audio click, Vibration API, Wake Lock, & IndexedDB/LocalStorage.
  */
 
-// --- DHIKR PRESETS WITH BANGLA & ENGLISH LOCALIZATION ---
+// --- DHIKR PRESETS WITH BANGLA, ENGLISH, & ARABIC LOCALIZATION ---
 const DHIKR_PRESETS = [
+  // --- ESSENTIAL / SUNNAH DHIKRS ---
   {
     id: "subhanallah",
     name: "SubhanAllah",
@@ -40,52 +41,24 @@ const DHIKR_PRESETS = [
     id: "tahlil",
     name: "La ilaha illallah",
     name_bn: "লা ইলাহা ইল্লাল্লাহ",
-    meaning: "There is no deity except Allah",
+    meaning: "There is no deity worthy of worship except Allah",
     meaning_bn: "আল্লাহ ব্যতীত কোনো সত্য উপাস্য নেই",
     arabic: "لَا إِلٰهَ إِلَّا اللَّهُ",
     defaultTarget: 100,
-    category: "praise"
+    category: "essential"
   },
   {
-    id: "istighfar",
-    name: "Astaghfirullah",
-    name_bn: "আস্তাগফিরুল্লাহ",
-    meaning: "I seek forgiveness from Allah",
-    meaning_bn: "আমি আল্লাহর নিকট ক্ষমা প্রার্থনা করছি",
-    arabic: "أَسْتَغْفِرُ اللَّهَ",
+    id: "tamjeed",
+    name: "SubhanAllahi wal-Hamdulillahi wa La ilaha illallahu Wallahu Akbar",
+    name_bn: "কালিমা তামজীদ",
+    meaning: "Glory be to Allah, praise be to Allah, there is no god but Allah, and Allah is the Greatest",
+    meaning_bn: "আল্লাহ অতি পবিত্র, সকল প্রশংসা আল্লাহর, আল্লাহ ছাড়া কোনো উপাস্য নেই এবং আল্লাহ সর্বশ্রেষ্ঠ",
+    arabic: "سُبْحَانَ اللَّهِ وَالْحَمْدُ لِلَّهِ وَلَا إِلٰهَ إِلَّا اللَّهُ وَاللَّهُ أَكْبَرُ",
     defaultTarget: 100,
-    category: "forgiveness"
+    category: "essential"
   },
-  {
-    id: "salawat",
-    name: "Salawat",
-    name_bn: "সালাওয়াত (দরূদ)",
-    meaning: "Peace and blessings upon Muhammad",
-    meaning_bn: "মুহাম্মদ ﷺ এর উপর শান্তি ও রহমত বর্ষিত হোক",
-    arabic: "اللَّهُمَّ صَلِّ عَلَىٰ مُحَمَّدٍ",
-    defaultTarget: 100,
-    category: "salawat"
-  },
-  {
-    id: "hawqala",
-    name: "Hawqala",
-    name_bn: "হাওকালাহ",
-    meaning: "No power nor strength except in Allah",
-    meaning_bn: "আল্লাহর সাহায্য ব্যতীত কোনো শক্তি নেই",
-    arabic: "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ",
-    defaultTarget: 100,
-    category: "supplication"
-  },
-  {
-    id: "hasbunallah",
-    name: "Hasbunallahu wa ni'mal wakeel",
-    name_bn: "হাসবুনাল্লাহু ওয়া নিমাল ওয়াকিল",
-    meaning: "Allah is sufficient for us, the best protector",
-    meaning_bn: "আমাদের জন্য আল্লাহই যথেষ্ট, উত্তম কর্মবিধায়ক",
-    arabic: "حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ",
-    defaultTarget: 100,
-    category: "supplication"
-  },
+
+  // --- PRAISE & GLORIFICATION (তাহমীদ ও তাসবীহ) ---
   {
     id: "subhanallah_bihamdihi",
     name: "SubhanAllahi wa bihamdihi",
@@ -107,24 +80,282 @@ const DHIKR_PRESETS = [
     category: "praise"
   },
   {
+    id: "subhanallahi_wa_bihamdihi_adada",
+    name: "SubhanAllahi wa bihamdihi ‘adada khalqihi",
+    name_bn: "সুবহানাল্লাহি ওয়া বিহামদিহী ‘আদাদা খালকিহী",
+    meaning: "Glory to Allah and praise Him, according to the number of His creation and weight of His Throne",
+    meaning_bn: "তাঁর সৃষ্টির সংখ্যা পরিমাণ, সন্তুষ্টি পরিমাণ ও আরশের ওজন পরিমাণ আল্লাহর পবিত্রতা ও প্রশংসা করছি",
+    arabic: "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ عَدَدَ خَلْقِهِ وَرِضَا نَفْسِهِ وَزِنَةَ عَرْشِهِ وَمِدَادَ كَلِمَاتِهِ",
+    defaultTarget: 3,
+    category: "praise"
+  },
+  {
+    id: "la_ilaha_wahdahu",
+    name: "La ilaha illallahu wahdahu la shareeka lah",
+    name_bn: "লা ইলাহা ইল্লাল্লাহু ওয়াহদাহু লা শারীকা লাহু",
+    meaning: "None has the right to be worshipped except Allah alone, with no partner or associate",
+    meaning_bn: "আল্লাহ ব্যতীত কোনো সত্য উপাস্য নেই, তিনি একক, তাঁর কোনো অংশীদার নেই",
+    arabic: "لَا إِلٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ",
+    defaultTarget: 100,
+    category: "praise"
+  },
+  {
+    id: "ya_hayyu_ya_qayyum",
+    name: "Ya Hayyu Ya Qayyum",
+    name_bn: "ইয়া হাইয়্যু ইয়া কাইয়্যূম",
+    meaning: "O Ever-Living, O Self-Sustaining",
+    meaning_bn: "হে চিরঞ্জীব, হে সর্বসত্তার ধারক",
+    arabic: "يَا حَيُّ يَا قَيُّومُ",
+    defaultTarget: 100,
+    category: "praise"
+  },
+  {
+    id: "ya_dhal_jalali",
+    name: "Ya Dhal Jalali wal Ikram",
+    name_bn: "ইয়া যাল জালালি ওয়াল ইকরাম",
+    meaning: "O Owner of Majesty and Honor",
+    meaning_bn: "হে মহিমা ও পরম অনুগ্রহের অধিকারী",
+    arabic: "يَا ذَا الْجَلَالِ وَالإِكْرَامِ",
+    defaultTarget: 33,
+    category: "praise"
+  },
+  {
+    id: "radheetu_billah",
+    name: "Radheetu Billahi Rabba",
+    name_bn: "রাদীতু বিল্লাহি রব্বা",
+    meaning: "I am pleased with Allah as my Lord, Islam as my religion, and Muhammad ﷺ as my Prophet",
+    meaning_bn: "আমি সন্তুষ্টচিত্তে আল্লাহকে রব, ইসলামকে দ্বীন এবং মুহাম্মদ ﷺ কে রাসুল হিসেবে মেনে নিয়েছি",
+    arabic: "رَضِيتُ بِاللَّهِ رَبًّا وَبِالإِسْلَامِ دِينًا وَبِمُحَمَّدٍ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ نَبِيًّا",
+    defaultTarget: 3,
+    category: "praise"
+  },
+
+  // --- FORGIVENESS & REPENTANCE (ইস্তিগফার ও তওবা) ---
+  {
+    id: "istighfar",
+    name: "Astaghfirullah",
+    name_bn: "আস্তাগফিরুল্লাহ",
+    meaning: "I seek forgiveness from Allah",
+    meaning_bn: "আমি আল্লাহর নিকট ক্ষমা প্রার্থনা করছি",
+    arabic: "أَسْتَغْفِرُ اللَّهَ",
+    defaultTarget: 100,
+    category: "forgiveness"
+  },
+  {
+    id: "astaghfirullah_wa_atubu",
+    name: "Astaghfirullaha wa Atubu Ilayh",
+    name_bn: "আস্তাগফিরুল্লাহ ওয়া আতুবু ইলাইহি",
+    meaning: "I seek forgiveness of Allah and turn unto Him in repentance",
+    meaning_bn: "আমি আল্লাহর ক্ষমা প্রার্থনা করছি এবং তাঁরই দিকে তওবা করছি",
+    arabic: "أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ",
+    defaultTarget: 100,
+    category: "forgiveness"
+  },
+  {
     id: "sayyidul_istighfar",
     name: "Sayyidul Istighfar",
     name_bn: "সাইয়্যিদুল ইস্তিগফার",
     meaning: "Chief supplication for forgiveness",
-    meaning_bn: "ক্ষমা প্রার্থনার শ্রেষ্ঠ দু'আ",
-    arabic: "سَيِّدُ الاسْتِغْفَارِ",
-    defaultTarget: 33,
+    meaning_bn: "ক্ষমা প্রার্থনার শ্রেষ্ঠ দু'আ (সাইয়্যিদুল ইস্তিগফার)",
+    arabic: "اللَّهُمَّ أَنْتَ رَبِّي لَا إِلٰهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَىٰ عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ",
+    defaultTarget: 3,
     category: "forgiveness"
   },
   {
-    id: "yunus_dua",
-    name: "Ayat e Kareema (Dua of Yunus)",
-    name_bn: "আয়াতে কারীমা (ইউনুস আ. এর দু'আ)",
-    meaning: "Exalted are You, indeed I was of the wrongdoers",
-    meaning_bn: "তুমি ব্যতীত সত্য উপাস্য নেই, আমি অপরাধী ছিলাম",
-    arabic: "لَّا إِلَٰهَ إِلَّا أَنتَ سُبْحَانَكَ",
+    id: "rabbighfirli",
+    name: "Rabbighfir li wa tub 'alayya",
+    name_bn: "রব্বিগফির লী ওয়া তুব 'আলাইয়্যা",
+    meaning: "My Lord! Forgive me and accept my repentance, surely You are the Accepter of Repentance, the Merciful",
+    meaning_bn: "হে আমার রব! আমাকে ক্ষমা করুন ও আমার তওবা কবুল করুন, নিশ্চয় আপনি অতি তওবা কবুলকারী ও পরম দয়ালু",
+    arabic: "رَبِّ اغْفِرْ لِي وَتُبْ عَلَيَّ إِنَّكَ أَنْتَ التَّوَّابُ الرَّحِيمُ",
+    defaultTarget: 100,
+    category: "forgiveness"
+  },
+  {
+    id: "astaghfirullah_alazeem_alladhi",
+    name: "Astaghfirullahal Azeem alladhi la ilaha illa Huwa",
+    name_bn: "আস্তাগফিরুল্লাহাল 'আযীম আল্লাযী লা ইলাহা ইল্লা হু",
+    meaning: "I seek forgiveness from Allah the Almighty, whom there is no deity but He, the Living, the Eternal, and I repent to Him",
+    meaning_bn: "আমি আল্লাহর ক্ষমা চাই যিনি ছাড়া কোনো উপাস্য নেই, তিনি চিরঞ্জীব, সর্বধারক এবং তাঁর কাছেই তওবা করছি",
+    arabic: "أَسْتَغْفِرُ اللَّهَ الْعَظِيمَ الَّذِي لَا إِلٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ وَأَتُوبُ إِلَيْهِ",
+    defaultTarget: 33,
+    category: "forgiveness"
+  },
+
+  // --- SALAWAT & BLESSINGS UPON PROPHET ﷺ (দরূদ ও সালাম) ---
+  {
+    id: "salawat",
+    name: "Allahumma Salli 'ala Muhammad",
+    name_bn: "সালাওয়াত (সংক্ষিপ্ত দরূদ)",
+    meaning: "O Allah, send blessings and peace upon our Prophet Muhammad",
+    meaning_bn: "হে আল্লাহ! আমাদের নবী মুহাম্মদ ﷺ এর উপর শান্তি ও রহমত বর্ষিত করুন",
+    arabic: "اللَّهُمَّ صَلِّ عَلَىٰ مُحَمَّدٍ وَعَلَىٰ آلِ مُحَمَّدٍ",
+    defaultTarget: 100,
+    category: "salawat"
+  },
+  {
+    id: "durood_ibrahim",
+    name: "Durood-e-Ibrahim",
+    name_bn: "দরূদে ইবরাহীম",
+    meaning: "The complete and most virtuous prayer for blessings upon Prophet Muhammad ﷺ",
+    meaning_bn: "শ্রেষ্ঠ সালাওয়াত (নামাযে পঠিত দরূদে ইবরাহীম)",
+    arabic: "اللَّهُمَّ صَلِّ عَلَىٰ مُحَمَّدٍ وَعَلَىٰ آلِ مُحَمَّدٍ كَمَا صَلَّيْتَ عَلَىٰ إِبْرَاهِيمَ وَعَلَىٰ آلِ إِبْرَاهِيمَ إِنَّكَ حَمِيدٌ مَجِيدٌ، اللَّهُمَّ بَارِكْ عَلَىٰ مُحَمَّدٍ وَعَلَىٰ آلِ مُحَمَّدٍ كَمَا بَارَكْتَ عَلَىٰ إِبْرَاهِيمَ وَعَلَىٰ آلِ إِبْرَاهِيمَ إِنَّكَ حَمِيدٌ مَجِيدٌ",
+    defaultTarget: 10,
+    category: "salawat"
+  },
+  {
+    id: "sallallahu_alayhi_wa_sallam",
+    name: "Sallallahu ‘Alayhi Wa Sallam",
+    name_bn: "সাল্লাল্লাহু 'আলাইহি ওয়া সাল্লাম",
+    meaning: "May Allah honor him and grant him peace",
+    meaning_bn: "তাঁর উপর আল্লাহর দরূদ ও অফুরন্ত শান্তি বর্ষিত হোক",
+    arabic: "صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ",
+    defaultTarget: 100,
+    category: "salawat"
+  },
+
+  // --- SUPPLICATION & PROTECTION (দু'আ ও আশ্রয় প্রার্থনা) ---
+  {
+    id: "hawqala",
+    name: "La Hawla wa la Quwwata illa Billah",
+    name_bn: "লা হাওলা ওয়ালা কুওয়্যাতা ইল্লা বিল্লাহ",
+    meaning: "There is no power nor strength except with Allah (a treasure of Paradise)",
+    meaning_bn: "আল্লাহর সাহায্য ব্যতীত কোনো উপায় নেই এবং কোনো শক্তি নেই (জান্নাতের গুপ্তধন)",
+    arabic: "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ",
     defaultTarget: 100,
     category: "supplication"
+  },
+  {
+    id: "hasbunallah",
+    name: "Hasbunallahu wa ni'mal wakeel",
+    name_bn: "হাসবুনাল্লাহু ওয়া নিমাল ওয়াকিল",
+    meaning: "Allah is sufficient for us, and He is the best Disposer of affairs",
+    meaning_bn: "আমাদের জন্য আল্লাহই যথেষ্ট, আর তিনি কতই না উত্তম কর্মবিধায়ক",
+    arabic: "حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ",
+    defaultTarget: 100,
+    category: "supplication"
+  },
+  {
+    id: "bismillahil_ladhi",
+    name: "Bismillahilladhi la yadurru ma'asmihi shay'",
+    name_bn: "বিসমিল্লাহিল্লাযী লা ইয়াদুররু মা'আস্মিহী",
+    meaning: "In the Name of Allah, with Whose Name nothing can cause harm in earth or heaven",
+    meaning_bn: "আল্লাহর নামে, যাঁর নামের সাথে আসমান ও যমীনের কোনো বস্তুই অনিষ্ট করতে পারে না",
+    arabic: "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ",
+    defaultTarget: 3,
+    category: "supplication"
+  },
+  {
+    id: "ya_hayyu_bi_rahmatika",
+    name: "Ya Hayyu Ya Qayyum bi-rahmatika astagheeth",
+    name_bn: "ইয়া হাইয়্যু ইয়া কাইয়্যূম বিরাহমাতিকা আস্তাগীস",
+    meaning: "O Ever-Living, O Sustainer! By Your mercy I seek assistance; rectify all my affairs",
+    meaning_bn: "হে চিরঞ্জীব, হে সর্বধারক! আপনার রহমতের উসিলায় সাহায্য চাই, আমার সকল কাজ সঠিক করে দিন",
+    arabic: "يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ أَصْلِحْ لِي شَأْنِي كُلَّهُ وَلَا تَكِلْنِي إِلَىٰ نَفْسِي طَرْفَةَ عَيْنٍ",
+    defaultTarget: 3,
+    category: "supplication"
+  },
+  {
+    id: "allahumma_ajirni",
+    name: "Allahumma ajirni minan-nar",
+    name_bn: "আল্লাহুম্মা আজিরনী মিনান-নার",
+    meaning: "O Allah, save me from the Fire of Hell",
+    meaning_bn: "হে আল্লাহ! আমাকে জাহান্নামের আগুন থেকে রক্ষা করুন",
+    arabic: "اللَّهُمَّ أَجِرْنِي مِنَ النَّارِ",
+    defaultTarget: 7,
+    category: "supplication"
+  },
+  {
+    id: "allahumma_innee_as_aluka_jannah",
+    name: "Allahumma inni as'alukal-Jannah",
+    name_bn: "আল্লাহুম্মা ইন্নী আসআলুকাল জান্নাহ",
+    meaning: "O Allah, I ask You for Paradise",
+    meaning_bn: "হে আল্লাহ! আমি আপনার নিকট জান্নাত প্রার্থনা করছি",
+    arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْجَنَّةَ",
+    defaultTarget: 7,
+    category: "supplication"
+  },
+  {
+    id: "allahumma_inffaka_afuwwun",
+    name: "Allahumma innaka 'Afuwwun tuhibbul 'afwa fa'fu 'anni",
+    name_bn: "আল্লাহুম্মা ইন্নাকা আফুওয়্যুন",
+    meaning: "O Allah, You are Most Forgiving, and You love to forgive, so forgive me",
+    meaning_bn: "হে আল্লাহ! নিশ্চয় আপনি ক্ষমাশীল, ক্ষমাকে ভালোবাসেন, অতএব আমাকে ক্ষমা করে দিন",
+    arabic: "اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي",
+    defaultTarget: 33,
+    category: "supplication"
+  },
+
+  // --- QURANIC DUAS (কুরআনের শ্রেষ্ঠ দু'আসমূহ) ---
+  {
+    id: "yunus_dua",
+    name: "Ayat e Kareema (Dua of Prophet Yunus)",
+    name_bn: "আয়াতে কারীমা (ইউনুস আ. এর দু'আ)",
+    meaning: "There is no deity except You; Exalted are You. Indeed, I have been of the wrongdoers",
+    meaning_bn: "তুমি ব্যতীত কোনো সত্য উপাস্য নেই, তুমি অতি পবিত্র! নিশ্চয় আমি অপরাধীদের অন্তর্ভুক্ত",
+    arabic: "لَّا إِلٰهَ إِلَّا أَنتَ سُبْحَانَكَ إِنِّي كُنتُ مِنَ الظَّالِمِينَ",
+    defaultTarget: 100,
+    category: "quranic"
+  },
+  {
+    id: "rabbana_atina",
+    name: "Rabbana Atina fid-Dunya Hasanatan",
+    name_bn: "রব্বানা আতিনা ফিদ্দুনইয়া হাসানাহ",
+    meaning: "Our Lord, give us in this world good and in the Hereafter good and protect us from the Fire",
+    meaning_bn: "হে আমাদের প্রতিপালক! আমাদের ইহকালে কল্যাণ দিন, পরকালেও কল্যাণ দিন এবং দোযখের আযাব থেকে রক্ষা করুন",
+    arabic: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ",
+    defaultTarget: 33,
+    category: "quranic"
+  },
+  {
+    id: "rabbi_innee_lima_anzalta",
+    name: "Rabbi inni lima anzalta ilayya min khayrin faqeer",
+    name_bn: "দু'আ মূসা (আ.) - রব্বি ইন্নী লিমা আনযালতা",
+    meaning: "My Lord, indeed I am, for whatever good You would send down to me, in need",
+    meaning_bn: "হে আমার পালনকর্তা, আপনি আমার প্রতি যে অনুগ্রহই নাযিল করবেন, আমি তার মুখাপেক্ষী",
+    arabic: "رَبِّ إِنِّي لِمَا أَنزَلْتَ إِلَيَّ مِنْ خَيْرٍ فَقِيرٌ",
+    defaultTarget: 33,
+    category: "quranic"
+  },
+  {
+    id: "rabbir_hamhuma",
+    name: "Rabbir-hamhuma kama rabbayani sagheera",
+    name_bn: "পিতামাতার জন্য দু'আ - রব্বির হামহুমা",
+    meaning: "My Lord, have mercy upon my parents as they brought me up when I was small",
+    meaning_bn: "হে আমার প্রতিপালক! পিতা-মাতার প্রতি দয়া করুন যেমন তাঁরা শৈশবে আমাকে স্নেহভরে প্রতিপালন করেছেন",
+    arabic: "رَّبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا",
+    defaultTarget: 33,
+    category: "quranic"
+  },
+  {
+    id: "rabbana_hablana_min_azwajina",
+    name: "Rabbana hab lana min azwajina wa dhurriyyatina",
+    name_bn: "পরিবারের কল্যাণে দু'আ - রব্বানা হাবলানা",
+    meaning: "Our Lord, grant us from among our spouses and offspring comfort to our eyes",
+    meaning_bn: "হে আমাদের রব! আমাদের জীবনসঙ্গী ও সন্তানদের আমাদের জন্য নয়নপ্রীতিকর করুন এবং মুত্তাকীদের নেতা করুন",
+    arabic: "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا",
+    defaultTarget: 33,
+    category: "quranic"
+  },
+  {
+    id: "rabbi_zidni_ilma",
+    name: "Rabbi Zidni 'Ilma",
+    name_bn: "রব্বি যিদনী ইলমা",
+    meaning: "My Lord, increase me in knowledge",
+    meaning_bn: "হে আমার পালনকর্তা! আমার জ্ঞান বৃদ্ধি করে দিন",
+    arabic: "رَّبِّ زِدْنِي عِلْمًا",
+    defaultTarget: 100,
+    category: "quranic"
+  },
+  {
+    id: "rabbish_rahli_sadri",
+    name: "Rabbish-rah li sadri wa yassir li amri",
+    name_bn: "রব্বিশ রাহলী সদরী",
+    meaning: "My Lord, expand for me my breast and ease for me my task",
+    meaning_bn: "হে আমার রব! আমার বক্ষ প্রশস্ত করে দিন এবং আমার কাজ সহজ করে দিন",
+    arabic: "رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي",
+    defaultTarget: 33,
+    category: "quranic"
   }
 ];
 
@@ -378,7 +609,15 @@ function renderUI() {
   }
 
   // Center Counter
-  document.getElementById('arabic-main').textContent = active.arabic || '';
+  const arabicMainEl = document.getElementById('arabic-main');
+  if (arabicMainEl) {
+    arabicMainEl.textContent = active.arabic || '';
+    if ((active.arabic || '').length > 35) {
+      arabicMainEl.classList.add('arabic-long');
+    } else {
+      arabicMainEl.classList.remove('arabic-long');
+    }
+  }
   document.getElementById('translit-main').textContent = isBn ? (active.meaning_bn || active.name_bn) : (active.meaning || active.name);
   document.getElementById('count-number').textContent = state.count;
 
@@ -448,6 +687,29 @@ function renderUI() {
   }
   if (instBtn) {
     instBtn.textContent = isBn ? "ইনস্টল" : "Install";
+  }
+
+  // Category chips translation
+  const catTranslations = {
+    all: { bn: "সকল", en: "All" },
+    essential: { bn: "প্রয়োজনীয়", en: "Essential" },
+    praise: { bn: "প্রশংসা", en: "Praise" },
+    forgiveness: { bn: "ইস্তিগফার", en: "Forgiveness" },
+    salawat: { bn: "সালাওয়াত", en: "Salawat" },
+    supplication: { bn: "দু'আ", en: "Duas" },
+    quranic: { bn: "কুরআনি দু'আ", en: "Quranic" }
+  };
+  document.querySelectorAll('.chip').forEach(chip => {
+    const cat = chip.getAttribute('data-cat');
+    if (cat && catTranslations[cat]) {
+      chip.textContent = isBn ? catTranslations[cat].bn : catTranslations[cat].en;
+    }
+  });
+
+  // Search input placeholder
+  const searchInput = document.getElementById('dhikr-search-input');
+  if (searchInput) {
+    searchInput.placeholder = isBn ? "যিকির বা অর্থ অনুসন্ধান করুন…" : "Search Dhikr or meaning…";
   }
 }
 
