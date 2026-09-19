@@ -283,7 +283,8 @@ fun CounterScreen(
                         stagePresets.forEachIndexed { index, preset ->
                             val count = state.mode33x3Counts[index]
                             val isCurrent = state.mode33x3Stage == index
-                            val isDone = count >= 33
+                            val stageTarget = if (index == 2) 34 else 33
+                            val isDone = count >= stageTarget
                             val stageName = preset.getLocalizedName(context)
                             val shortName = if (stageName.length > 5) stageName.take(4) else stageName
 

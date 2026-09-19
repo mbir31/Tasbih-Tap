@@ -65,17 +65,28 @@ class MainActivity : ComponentActivity() {
                 }
             }
 
-            // Lifecycle observer to pause sensors when app is in background
+            // Lifecycle and screen observer to pause sensors when in background or on other screens
             val lifecycleOwner = LocalLifecycleOwner.current
-            DisposableEffect(lifecycleOwner) {
+            DisposableEffect(lifecycleOwner, currentScreen, uiState.isBackTapEnabled) {
                 val observer = LifecycleEventObserver { _, event ->
                     when (event) {
-                        Lifecycle.Event.ON_RESUME -> viewModel.onResume()
+                        Lifecycle.Event.ON_RESUME -> {
+                            if (currentScreen == CurrentScreen.COUNTER && uiState.isBackTapEnabled) {
+                                viewModel.backTapDetector.start()
+                            }
+                        }
                         Lifecycle.Event.ON_PAUSE -> viewModel.onPause()
                         else -> {}
                     }
                 }
                 lifecycleOwner.lifecycle.addObserver(observer)
+
+                if (currentScreen == CurrentScreen.COUNTER && uiState.isBackTapEnabled) {
+                    viewModel.backTapDetector.start()
+                } else {
+                    viewModel.backTapDetector.stop()
+                }
+
                 onDispose {
                     lifecycleOwner.lifecycle.removeObserver(observer)
                 }
@@ -159,7 +170,7 @@ class MainActivity : ComponentActivity() {
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        if (viewModel.uiState.value.isVolumeKeyCountingEnabled) {
+        if (viewModel.uiState.value.isVolumeKeyCountingEnabled && event?.repeatCount == 0) {
             when (keyCode) {
                 KeyEvent.KEYCODE_VOLUME_UP -> {
                     viewModel.increment(fromBackTap = false)

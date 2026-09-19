@@ -464,10 +464,18 @@ let wakeLock = null;
 async function requestWakeLock() {
   if (!state.keepScreenAwake || !('wakeLock' in navigator)) return;
   try {
-    wakeLock = await navigator.wakeLock.request('screen');
-    wakeLock.addEventListener('release', () => { wakeLock = null; });
+    if (!wakeLock) {
+      wakeLock = await navigator.wakeLock.request('screen');
+      wakeLock.addEventListener('release', () => { wakeLock = null; });
+    }
   } catch (err) {
     console.log("WakeLock notice:", err.message);
+  }
+}
+
+function releaseWakeLock() {
+  if (wakeLock) {
+    wakeLock.release().then(() => { wakeLock = null; }).catch(() => { wakeLock = null; });
   }
 }
 
@@ -575,6 +583,10 @@ function showMilestoneToast(text) {
   }
 }
 
+function showToast(text) {
+  showMilestoneToast(text);
+}
+
 // --- UI RENDERING ---
 function renderUI() {
   const active = getActiveDhikr();
@@ -582,6 +594,28 @@ function renderUI() {
 
   // Apply theme
   document.documentElement.setAttribute('data-theme', state.theme);
+
+  // Synchronize theme selection cards in settings
+  const themeNames = {
+    emerald: { bn: 'এমেরাল্ড', en: 'Emerald' },
+    midnight: { bn: 'মিডনাইট', en: 'Midnight' },
+    sand: { bn: 'মদিনা স্যান্ড', en: 'Medina Sand' },
+    night: { bn: 'ওলেড নাইট', en: 'OLED Night' },
+    rosegold: { bn: 'রোজ গোল্ড', en: 'Rose Gold' },
+    royalamber: { bn: 'রয়্যাল অ্যাম্বার', en: 'Royal Amber' }
+  };
+  document.querySelectorAll('.theme-card').forEach(card => {
+    const t = card.getAttribute('data-theme');
+    if (t === state.theme) {
+      card.classList.add('active');
+    } else {
+      card.classList.remove('active');
+    }
+    const nameEl = card.querySelector('.theme-name') || card.querySelector('span:not(.theme-preview-dot)');
+    if (nameEl && themeNames[t]) {
+      nameEl.textContent = isBn ? themeNames[t].bn : themeNames[t].en;
+    }
+  });
 
   // Top Card
   document.getElementById('dhikr-card-title').textContent = isBn ? (active.name_bn || active.name) : active.name;
@@ -634,13 +668,19 @@ function renderUI() {
   if (circle) {
     const circumference = 2 * Math.PI * 125; // r = 125 -> ~785.4
     if (state.isUnlimited) {
-      circle.style.strokeDashoffset = '0';
+      circle.style.strokeDashoffset = circumference.toString();
     } else {
       const progress = Math.min(state.count / state.target, 1);
       const offset = circumference - (progress * circumference);
       circle.style.strokeDashoffset = offset.toString();
     }
   }
+
+  // Control pills text
+  const undoBtnText = document.getElementById('undo-btn-text');
+  if (undoBtnText) undoBtnText.textContent = isBn ? 'আনডু' : 'Undo';
+  const resetBtnText = document.getElementById('reset-btn-text');
+  if (resetBtnText) resetBtnText.textContent = isBn ? 'রিসেট' : 'Reset';
 
   // Bottom buttons and helper texts
   document.getElementById('thumb-btn-text').textContent = isBn ? "এখানে ট্যাপ করুন বা পেছনে ট্যাপ করুন" : "TAP HERE OR TAP BACK";
@@ -674,6 +714,62 @@ function renderUI() {
       btn.classList.remove('active');
     }
   });
+
+  // Settings row labels & descriptions
+  const backTapLabel = document.getElementById('back-tap-label');
+  if (backTapLabel) backTapLabel.textContent = isBn ? 'মোবাইলের পেছনে ট্যাপ (Back-Tap)' : 'Back-of-Phone Tap (Back-Tap)';
+  const backTapDesc = document.getElementById('back-tap-desc');
+  if (backTapDesc) backTapDesc.textContent = isBn ? 'মোবাইল পেছনে দুইবার আলতো ট্যাপ করে কাউন্ট' : 'Gently tap back of phone to count';
+
+  const hapticLabel = document.getElementById('haptic-label');
+  if (hapticLabel) hapticLabel.textContent = isBn ? 'হ্যাপটিক ভাইব্রেশন' : 'Haptic Vibration';
+  const hapticDesc = document.getElementById('haptic-desc');
+  if (hapticDesc) hapticDesc.textContent = isBn ? 'প্রতিটি গণনায় সূক্ষ্ম ভাইব্রেশন ফিডব্যাক' : 'Subtle tactile feedback on each count';
+
+  const soundLabel = document.getElementById('sound-label');
+  if (soundLabel) soundLabel.textContent = isBn ? 'কাঠের তসবীহ ক্লিক শব্দ' : 'Wooden Misbaha Bead Click';
+  const soundDesc = document.getElementById('sound-desc');
+  if (soundDesc) soundDesc.textContent = isBn ? 'ন্যাচারাল ক্লিক অডিও এফেক্ট' : 'Natural acoustic bead audio click';
+
+  const wakelockLabel = document.getElementById('wakelock-label');
+  if (wakelockLabel) wakelockLabel.textContent = isBn ? 'স্ক্রিন অন রাখুন (Wake Lock)' : 'Keep Screen Awake (Wake Lock)';
+  const wakelockDesc = document.getElementById('wakelock-desc');
+  if (wakelockDesc) wakelockDesc.textContent = isBn ? 'যিকিরের সময় স্ক্রিন বন্ধ হবে না' : 'Prevents screen from turning off while reciting';
+
+  const langLabel = document.getElementById('lang-label');
+  if (langLabel) langLabel.textContent = isBn ? 'ভাষা পরিবর্তন (Language)' : 'Switch Language';
+  const langDesc = document.getElementById('lang-desc');
+  if (langDesc) langDesc.textContent = isBn ? 'বাংলা / English' : 'Bengali / English';
+
+  const themeSectionTitle = document.getElementById('theme-section-title');
+  if (themeSectionTitle) themeSectionTitle.textContent = isBn ? 'ইসলামিক থিম নির্বাচন' : 'Islamic Theme Selection';
+
+  // Sheet titles
+  const dhikrSheetTitle = document.getElementById('dhikr-sheet-title');
+  if (dhikrSheetTitle) dhikrSheetTitle.textContent = isBn ? 'যিকির ও মোড নির্বাচন' : 'Select Dhikr & Mode';
+  const historySheetTitle = document.getElementById('history-sheet-title');
+  if (historySheetTitle) historySheetTitle.textContent = isBn ? 'যিকির ইতিহাস ও পরিসংখ্যান' : 'Dhikr History & Statistics';
+  const settingsSheetTitle = document.getElementById('settings-sheet-title');
+  if (settingsSheetTitle) settingsSheetTitle.textContent = isBn ? 'সেটিংস ও কন্ট্রোল' : 'Settings & Controls';
+
+  // Quick mode cards in sheet
+  const mode33x3Title = document.getElementById('mode-33x3-title');
+  if (mode33x3Title) mode33x3Title.textContent = isBn ? '৩৩ × ৩ সুন্নাহ মোড' : '33 × 3 Sunnah Mode';
+  const mode33x3Desc = document.getElementById('mode-33x3-desc');
+  if (mode33x3Desc) mode33x3Desc.textContent = isBn ? 'সুবহানাল্লাহ ৩৩ → আলহামদুলিল্লাহ ৩৩ → আল্লাহু আকবার ৩৪' : 'SubhanAllah 33 → Alhamdulillah 33 → Allahu Akbar 34';
+
+  const modeUnlTitle = document.getElementById('mode-unlimited-title');
+  if (modeUnlTitle) modeUnlTitle.textContent = isBn ? '∞ আনলিমিটেড মোড' : '∞ Unlimited Mode';
+  const modeUnlDesc = document.getElementById('mode-unlimited-desc');
+  if (modeUnlDesc) modeUnlDesc.textContent = isBn ? 'মুক্ত যিকির ও অবাধ ক্ষমা প্রার্থনা' : 'Freeform remembrance without target limit';
+
+  const clearHistBtn = document.getElementById('clear-history-btn');
+  if (clearHistBtn) clearHistBtn.textContent = isBn ? 'ইতিহাস মুছে ফেলুন' : 'Clear All History';
+
+  const footerTagline = document.getElementById('footer-tagline');
+  if (footerTagline) {
+    footerTagline.innerHTML = `${isBn ? '১০০% অফলাইন • কোনো বিজ্ঞাপন নেই • প্রাইভেট ও নিরাপদ' : '100% Offline • Zero Ads • Private & Secure'}<br><strong>[made with ♥ by ©munabbiRMushran]</strong>`;
+  }
 
   // Settings Install texts
   const instTitle = document.getElementById('settings-install-title');
@@ -715,7 +811,10 @@ function renderUI() {
 
 // --- HARDWARE & DEVICE MOTION BACK-TAP DETECTION ---
 let lastTapTime = 0;
-let lastZ = 0;
+let lastX = 0, lastY = 0, lastZ = 0;
+let isFirstAcc = true;
+let isBackTapInitialized = false;
+
 const SENSITIVITIES = {
   low: 16.0,
   medium: 11.5,
@@ -723,25 +822,44 @@ const SENSITIVITIES = {
 };
 
 function initBackTapDetection() {
+  if (isBackTapInitialized) return;
   if (!window.DeviceMotionEvent) {
     console.log("DeviceMotionEvent not supported on this device.");
     return;
   }
+  isBackTapInitialized = true;
 
   window.addEventListener('devicemotion', (event) => {
     if (!state.backTapEnabled) return;
-    const accel = event.accelerationIncludingGravity || event.acceleration;
+    const accel = event.acceleration || event.accelerationIncludingGravity;
     if (!accel) return;
 
+    const currentX = accel.x || 0;
+    const currentY = accel.y || 0;
     const currentZ = accel.z || 0;
+
+    if (isFirstAcc) {
+      lastX = currentX;
+      lastY = currentY;
+      lastZ = currentZ;
+      isFirstAcc = false;
+      return;
+    }
+
+    const deltaX = Math.abs(currentX - lastX);
+    const deltaY = Math.abs(currentY - lastY);
     const deltaZ = Math.abs(currentZ - lastZ);
+
+    lastX = currentX;
+    lastY = currentY;
     lastZ = currentZ;
 
     const threshold = SENSITIVITIES[state.backTapSensitivity] || 11.5;
     const now = Date.now();
 
-    // Shockwave filter: sharp Z-axis impulse and debounce interval (320ms)
-    if (deltaZ > threshold && (now - lastTapTime > 320)) {
+    // Shockwave filter: sharp Z-axis impulse dominant over lateral motion and debounce interval (320ms)
+    const isRearTap = deltaZ >= threshold && (deltaZ >= deltaX * 0.7 && deltaZ >= deltaY * 0.7);
+    if (isRearTap && (now - lastTapTime > 320)) {
       lastTapTime = now;
       increment('back_tap');
     }
@@ -847,6 +965,7 @@ function renderDhikrSelectionList(filterCategory = 'all', searchQuery = '') {
       state.count = 0;
       state.round = 1;
       state.is33x3Mode = false;
+      state.isUnlimited = false;
       closeModal('dhikr-sheet-modal');
       renderUI();
       savePersistedState();
@@ -896,6 +1015,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const canvas = document.getElementById('counter-canvas');
   if (canvas) {
     canvas.addEventListener('click', (e) => {
+      if (state.backTapEnabled) requestMotionPermission();
       // Don't trigger if clicked inside controls
       if (e.target.closest('.controls-row')) return;
       increment('screen_tap');
@@ -905,7 +1025,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // Thumb Big Button
   const thumbBtn = document.getElementById('big-thumb-btn');
   if (thumbBtn) {
-    thumbBtn.addEventListener('click', () => increment('thumb_btn'));
+    thumbBtn.addEventListener('click', () => {
+      if (state.backTapEnabled) requestMotionPermission();
+      increment('thumb_btn');
+    });
   }
 
   // Floating Rocker Buttons
@@ -945,11 +1068,19 @@ document.addEventListener('DOMContentLoaded', () => {
     openModal('settings-modal');
   });
 
-  // Close buttons
+  // Close buttons and modal backdrop overlay click-to-dismiss
   document.querySelectorAll('.close-modal-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       const modal = e.target.closest('.modal-overlay');
       if (modal) modal.classList.remove('active');
+    });
+  });
+
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) {
+        overlay.classList.remove('active');
+      }
     });
   });
 
@@ -988,6 +1119,10 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('mode-unlimited-btn')?.addEventListener('click', () => {
     state.isUnlimited = !state.isUnlimited;
     state.is33x3Mode = false;
+    if (!state.isUnlimited) {
+      const active = getActiveDhikr();
+      state.target = active.defaultTarget || 33;
+    }
     closeModal('dhikr-sheet-modal');
     renderUI();
     savePersistedState();
@@ -1027,7 +1162,11 @@ document.addEventListener('DOMContentLoaded', () => {
     wakeLockToggle.checked = state.keepScreenAwake;
     wakeLockToggle.addEventListener('change', (e) => {
       state.keepScreenAwake = e.target.checked;
-      if (state.keepScreenAwake) requestWakeLock();
+      if (state.keepScreenAwake) {
+        requestWakeLock();
+      } else {
+        releaseWakeLock();
+      }
       savePersistedState();
     });
   }

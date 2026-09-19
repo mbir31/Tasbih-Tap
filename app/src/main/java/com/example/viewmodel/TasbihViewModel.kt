@@ -186,55 +186,156 @@ class TasbihViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     private fun handle33x3Increment(currentState: TasbihUiState, fromBackTap: Boolean) {
-        val currentStage = currentState.mode33x3Stage
         val stages = DhikrPresets.THIRTY_THREE_TIMES_THREE
+        val currentStage = currentState.mode33x3Stage.coerceIn(0, stages.size - 1)
+        val stageTarget = if (currentStage == 2) 34 else 33
+
+        // If the full 100-count Misbaha was completed, tapping again advances to next round
+        if (currentState.isCompleted) {
+            val nextRound = currentState.round + 1
+            val newCounts = mutableListOf(1, 0, 0)
+            val firstStageDhikr = stages[0]
+            _uiState.value = currentState.copy(
+                currentCount = 1,
+                target = 33,
+                round = nextRound,
+                activeDhikr = firstStageDhikr,
+                mode33x3Stage = 0,
+                mode33x3Counts = newCounts,
+                isCompleted = false,
+                lastTapMethod = if (fromBackTap) "back_tap" else "screen_tap"
+            )
+            userPrefs.currentCount = 1
+            userPrefs.currentRound = nextRound
+            userPrefs.mode33x3Stage = 0
+            userPrefs.target = 33
+            triggerSensoryFeedback(isCompletion = false)
+            return
+        }
+
+        // If the current stage is already at its target, advance to next stage on this tap
+        if (currentState.currentCount >= stageTarget && currentStage < stages.size - 1) {
+            val nextStage = currentStage + 1
+            val nextTarget = if (nextStage == 2) 34 else 33
+            val nextStageDhikr = stages[nextStage]
+            val updatedCounts = currentState.mode33x3Counts.toMutableList()
+            updatedCounts[nextStage] = 1
+
+            _uiState.value = currentState.copy(
+                currentCount = 1,
+                target = nextTarget,
+                activeDhikr = nextStageDhikr,
+                mode33x3Stage = nextStage,
+                mode33x3Counts = updatedCounts,
+                isCompleted = false,
+                lastTapMethod = if (fromBackTap) "back_tap" else "screen_tap"
+            )
+            userPrefs.currentCount = 1
+            userPrefs.mode33x3Stage = nextStage
+            userPrefs.target = nextTarget
+            triggerSensoryFeedback(isCompletion = false)
+            return
+        }
+
+        // Increment count within the current stage
+        val newCount = currentState.currentCount + 1
         val updatedCounts = currentState.mode33x3Counts.toMutableList()
-
-        val stageCount = updatedCounts[currentStage] + 1
-        updatedCounts[currentStage] = stageCount
-
-        val isStageCompleted = stageCount >= 33
-        var nextStage = currentStage
-        var isOverallCompleted = false
+        updatedCounts[currentStage] = newCount
+        val isStageCompleted = newCount >= stageTarget
 
         if (isStageCompleted) {
             if (currentStage < stages.size - 1) {
-                nextStage = currentStage + 1
+                // Stage milestone reached (SubhanAllah 33 or Alhamdulillah 33)
                 triggerSensoryFeedback(isCompletion = true)
+                _uiState.value = currentState.copy(
+                    currentCount = newCount,
+                    target = stageTarget,
+                    activeDhikr = stages[currentStage],
+                    mode33x3Stage = currentStage,
+                    mode33x3Counts = updatedCounts,
+                    isCompleted = false,
+                    lastTapMethod = if (fromBackTap) "back_tap" else "screen_tap"
+                )
             } else {
-                isOverallCompleted = true
+                // Final stage reached (Allahu Akbar 34) -> 100 complete!
                 triggerSensoryFeedback(isCompletion = true)
                 logSession(
                     dhikrName = "33×3 Misbaha (Complete)",
                     dhikrArabic = "سُبْحَانَ اللَّهِ • الْحَمْدُ لِلَّهِ • اللَّهُ أَكْبَرُ",
-                    count = 99,
-                    target = 99,
+                    count = 100,
+                    target = 100,
                     completed = true,
                     round = currentState.round
+                )
+                _uiState.value = currentState.copy(
+                    currentCount = newCount,
+                    target = stageTarget,
+                    activeDhikr = stages[currentStage],
+                    mode33x3Stage = currentStage,
+                    mode33x3Counts = updatedCounts,
+                    isCompleted = true,
+                    lastTapMethod = if (fromBackTap) "back_tap" else "screen_tap"
                 )
             }
         } else {
             triggerSensoryFeedback(isCompletion = false)
+            _uiState.value = currentState.copy(
+                currentCount = newCount,
+                target = stageTarget,
+                activeDhikr = stages[currentStage],
+                mode33x3Stage = currentStage,
+                mode33x3Counts = updatedCounts,
+                isCompleted = false,
+                lastTapMethod = if (fromBackTap) "back_tap" else "screen_tap"
+            )
         }
 
-        val currentStageDhikr = stages[nextStage]
-
-        _uiState.value = currentState.copy(
-            currentCount = stageCount,
-            target = 33,
-            activeDhikr = currentStageDhikr,
-            mode33x3Stage = nextStage,
-            mode33x3Counts = updatedCounts,
-            isCompleted = isOverallCompleted,
-            lastTapMethod = if (fromBackTap) "back_tap" else "screen_tap"
-        )
-
-        userPrefs.currentCount = stageCount
-        userPrefs.mode33x3Stage = nextStage
+        userPrefs.currentCount = newCount
+        userPrefs.mode33x3Stage = currentStage
+        userPrefs.target = stageTarget
     }
 
     fun decrement() {
         val currentState = _uiState.value
+        if (currentState.is33x3Mode) {
+            val currentStage = currentState.mode33x3Stage
+            val stages = DhikrPresets.THIRTY_THREE_TIMES_THREE
+            val counts = currentState.mode33x3Counts.toMutableList()
+
+            if (currentState.currentCount > 0) {
+                val newCount = currentState.currentCount - 1
+                counts[currentStage] = newCount
+                val stageTarget = if (currentStage == 2) 34 else 33
+                _uiState.value = currentState.copy(
+                    currentCount = newCount,
+                    target = stageTarget,
+                    mode33x3Counts = counts,
+                    isCompleted = false
+                )
+                userPrefs.currentCount = newCount
+                triggerSensoryFeedback(isCompletion = false)
+            } else if (currentStage > 0) {
+                // Revert to previous stage at its completed count
+                val prevStage = currentStage - 1
+                val prevTarget = if (prevStage == 2) 34 else 33
+                val prevDhikr = stages[prevStage]
+                counts[prevStage] = prevTarget
+                _uiState.value = currentState.copy(
+                    currentCount = prevTarget,
+                    target = prevTarget,
+                    activeDhikr = prevDhikr,
+                    mode33x3Stage = prevStage,
+                    mode33x3Counts = counts,
+                    isCompleted = false
+                )
+                userPrefs.currentCount = prevTarget
+                userPrefs.mode33x3Stage = prevStage
+                userPrefs.target = prevTarget
+                triggerSensoryFeedback(isCompletion = false)
+            }
+            return
+        }
+
         if (currentState.currentCount <= 0) return
 
         val newCount = currentState.currentCount - 1
@@ -248,33 +349,45 @@ class TasbihViewModel(application: Application) : AndroidViewModel(application) 
 
     fun reset() {
         val currentState = _uiState.value
-        if (currentState.currentCount > 0) {
+        if (currentState.currentCount > 0 && !currentState.isCompleted) {
             logSession(
-                dhikrName = currentState.activeDhikr.name,
+                dhikrName = if (currentState.is33x3Mode) "33×3 Misbaha (Incomplete)" else currentState.activeDhikr.name,
                 dhikrArabic = currentState.activeDhikr.arabic,
-                count = currentState.currentCount,
-                target = currentState.target,
-                completed = currentState.isCompleted,
+                count = if (currentState.is33x3Mode) currentState.mode33x3Counts.sum() else currentState.currentCount,
+                target = if (currentState.is33x3Mode) 100 else currentState.target,
+                completed = false,
                 round = currentState.round
             )
         }
 
+        val stageDhikr = if (currentState.is33x3Mode) DhikrPresets.THIRTY_THREE_TIMES_THREE[0] else currentState.activeDhikr
+        val defaultTarget = if (currentState.is33x3Mode) 33 else currentState.target
+
         _uiState.value = currentState.copy(
             currentCount = 0,
+            target = defaultTarget,
+            activeDhikr = stageDhikr,
             isCompleted = false,
             mode33x3Stage = 0,
             mode33x3Counts = listOf(0, 0, 0)
         )
         userPrefs.currentCount = 0
         userPrefs.mode33x3Stage = 0
+        if (currentState.is33x3Mode) {
+            userPrefs.target = 33
+        }
     }
 
     fun advanceRound() {
         val currentState = _uiState.value
         val nextRound = currentState.round + 1
+        val stageDhikr = if (currentState.is33x3Mode) DhikrPresets.THIRTY_THREE_TIMES_THREE[0] else currentState.activeDhikr
+        val defaultTarget = if (currentState.is33x3Mode) 33 else currentState.target
 
         _uiState.value = currentState.copy(
             currentCount = 0,
+            target = defaultTarget,
+            activeDhikr = stageDhikr,
             round = nextRound,
             isCompleted = false,
             mode33x3Stage = 0,
@@ -283,6 +396,9 @@ class TasbihViewModel(application: Application) : AndroidViewModel(application) 
         userPrefs.currentCount = 0
         userPrefs.currentRound = nextRound
         userPrefs.mode33x3Stage = 0
+        if (currentState.is33x3Mode) {
+            userPrefs.target = 33
+        }
     }
 
     fun selectDhikr(dhikr: DhikrItem) {
@@ -304,6 +420,7 @@ class TasbihViewModel(application: Application) : AndroidViewModel(application) 
             target = dhikr.defaultTarget,
             currentCount = 0,
             round = 1,
+            isUnlimited = false,
             isCompleted = false,
             is33x3Mode = false
         )
@@ -314,6 +431,7 @@ class TasbihViewModel(application: Application) : AndroidViewModel(application) 
         userPrefs.target = dhikr.defaultTarget
         userPrefs.currentCount = 0
         userPrefs.currentRound = 1
+        userPrefs.isUnlimitedMode = false
         userPrefs.is33x3Mode = false
     }
 

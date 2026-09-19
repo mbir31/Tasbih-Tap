@@ -45,6 +45,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -506,6 +507,14 @@ fun SettingsScreen(
     }
 
     if (showTestDialog) {
+        DisposableEffect(Unit) {
+            backTapDetector.stop()
+            onDispose {
+                if (isBackTapEnabled) {
+                    backTapDetector.start()
+                }
+            }
+        }
         BackTapTestDialog(
             currentSensitivity = sensitivity,
             onSensitivityChange = onSelectSensitivity,

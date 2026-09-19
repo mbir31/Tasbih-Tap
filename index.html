@@ -82,11 +82,11 @@
       <div class="controls-row">
         <button id="undo-btn" class="pill-btn" title="একটি গণনা কমান">
           <svg viewBox="0 0 24 24"><path d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.2 3.16-1.98 5.12-1.98 3.4 0 6.27 2.12 7.38 5.14l2.42-.8C20.67 10.97 16.97 8 12.5 8z"/></svg>
-          আনডু
+          <span id="undo-btn-text">আনডু</span>
         </button>
         <button id="reset-btn" class="pill-btn" title="কাউন্টার শূন্য করুন">
           <svg viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
-          রিসেট
+          <span id="reset-btn-text">রিসেট</span>
         </button>
       </div>
     </main>
@@ -126,19 +126,19 @@
     <div class="sheet-container">
       <div class="sheet-handle"></div>
       <div class="sheet-header">
-        <h3 class="sheet-title">যিকির ও মোড নির্বাচন</h3>
+        <h3 id="dhikr-sheet-title" class="sheet-title">যিকির ও মোড নির্বাচন</h3>
         <button class="close-btn close-modal-btn">&times;</button>
       </div>
 
       <!-- Quick Mode Cards: 33x3 & Unlimited -->
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
         <div id="mode-33x3-card" class="dhikr-item-card" style="flex-direction: column; align-items: flex-start;">
-          <span style="font-weight: 800; color: var(--accent-gold);">৩৩ × ৩ সুন্নাহ মোড</span>
-          <span style="font-size: 0.72rem; color: var(--text-muted); margin-top: 4px;">সুবহানাল্লাহ ৩৩ → আলহামদুলিল্লাহ ৩৩ → আল্লাহু আকবার ৩৪</span>
+          <span id="mode-33x3-title" style="font-weight: 800; color: var(--accent-gold);">৩৩ × ৩ সুন্নাহ মোড</span>
+          <span id="mode-33x3-desc" style="font-size: 0.72rem; color: var(--text-muted); margin-top: 4px;">সুবহানাল্লাহ ৩৩ → আলহামদুলিল্লাহ ৩৩ → আল্লাহু আকবার ৩৪</span>
         </div>
         <div id="mode-unlimited-btn" class="dhikr-item-card" style="flex-direction: column; align-items: flex-start;">
-          <span style="font-weight: 800; color: var(--accent-primary);">∞ আনলিমিটেড মোড</span>
-          <span style="font-size: 0.72rem; color: var(--text-muted); margin-top: 4px;">মুক্ত যিকির ও অবাধ ক্ষমা প্রার্থনা</span>
+          <span id="mode-unlimited-title" style="font-weight: 800; color: var(--accent-primary);">∞ আনলিমিটেড মোড</span>
+          <span id="mode-unlimited-desc" style="font-size: 0.72rem; color: var(--text-muted); margin-top: 4px;">মুক্ত যিকির ও অবাধ ক্ষমা প্রার্থনা</span>
         </div>
       </div>
 
@@ -165,7 +165,7 @@
     <div class="sheet-container">
       <div class="sheet-handle"></div>
       <div class="sheet-header">
-        <h3 class="sheet-title">যিকির ইতিহাস ও পরিসংখ্যান</h3>
+        <h3 id="history-sheet-title" class="sheet-title">যিকির ইতিহাস ও পরিসংখ্যান</h3>
         <button class="close-btn close-modal-btn">&times;</button>
       </div>
 
@@ -182,15 +182,15 @@
     <div class="sheet-container">
       <div class="sheet-handle"></div>
       <div class="sheet-header">
-        <h3 class="sheet-title">সেটিংস ও কন্ট্রোল</h3>
+        <h3 id="settings-sheet-title" class="sheet-title">সেটিংস ও কন্ট্রোল</h3>
         <button class="close-btn close-modal-btn">&times;</button>
       </div>
 
       <!-- Back Tap Option -->
       <div class="setting-row">
         <div class="setting-info">
-          <span class="setting-label">মোবাইলের পেছনে ট্যাপ (Back-Tap)</span>
-          <span class="setting-desc">মোবাইল পেছনে দুইবার আলতো ট্যাপ করে কাউন্ট</span>
+          <span class="setting-label" id="back-tap-label">মোবাইলের পেছনে ট্যাপ (Back-Tap)</span>
+          <span class="setting-desc" id="back-tap-desc">মোবাইল পেছনে দুইবার আলতো ট্যাপ করে কাউন্ট</span>
         </div>
         <label class="switch">
           <input type="checkbox" id="toggle-back-tap" checked>
@@ -214,8 +214,8 @@
       <!-- Haptic Vibration -->
       <div class="setting-row">
         <div class="setting-info">
-          <span class="setting-label">হ্যাপটিক ভাইব্রেশন</span>
-          <span class="setting-desc">প্রতিটি গণনায় সূক্ষ্ম ভাইব্রেশন ফিডব্যাক</span>
+          <span class="setting-label" id="haptic-label">হ্যাপটিক ভাইব্রেশন</span>
+          <span class="setting-desc" id="haptic-desc">প্রতিটি গণনায় সূক্ষ্ম ভাইব্রেশন ফিডব্যাক</span>
         </div>
         <label class="switch">
           <input type="checkbox" id="toggle-haptic" checked>
@@ -226,8 +226,8 @@
       <!-- Sound Click -->
       <div class="setting-row">
         <div class="setting-info">
-          <span class="setting-label">কাঠের তসবীহ ক্লিক শব্দ</span>
-          <span class="setting-desc">ন্যাচারাল ক্লিক অডিও এফেক্ট</span>
+          <span class="setting-label" id="sound-label">কাঠের তসবীহ ক্লিক শব্দ</span>
+          <span class="setting-desc" id="sound-desc">ন্যাচারাল ক্লিক অডিও এফেক্ট</span>
         </div>
         <label class="switch">
           <input type="checkbox" id="toggle-sound">
@@ -238,8 +238,8 @@
       <!-- Keep Screen Awake -->
       <div class="setting-row">
         <div class="setting-info">
-          <span class="setting-label">স্ক্রিন অন রাখুন (Wake Lock)</span>
-          <span class="setting-desc">যিকিরের সময় স্ক্রিন বন্ধ হবে না</span>
+          <span class="setting-label" id="wakelock-label">স্ক্রিন অন রাখুন (Wake Lock)</span>
+          <span class="setting-desc" id="wakelock-desc">যিকিরের সময় স্ক্রিন বন্ধ হবে না</span>
         </div>
         <label class="switch">
           <input type="checkbox" id="toggle-wakelock" checked>
@@ -250,39 +250,39 @@
       <!-- Language Toggle -->
       <div class="setting-row">
         <div class="setting-info">
-          <span class="setting-label">ভাষা পরিবর্তন (Language)</span>
-          <span class="setting-desc">বাংলা / English</span>
+          <span class="setting-label" id="lang-label">ভাষা পরিবর্তন (Language)</span>
+          <span class="setting-desc" id="lang-desc">বাংলা / English</span>
         </div>
         <button id="lang-toggle-btn" class="pill-btn">বাংলা ⇄ EN</button>
       </div>
 
       <!-- Themes -->
       <div style="margin-top: 10px;">
-        <span class="setting-label">ইসলামিক থিম নির্বাচন</span>
+        <span class="setting-label" id="theme-section-title">ইসলামিক থিম নির্বাচন</span>
         <div class="theme-grid">
           <div class="theme-card active" data-theme="emerald">
             <div class="theme-preview-dot" style="background: #10b981;"></div>
-            <span>এমেরাল্ড</span>
+            <span class="theme-name">এমেরাল্ড</span>
           </div>
           <div class="theme-card" data-theme="midnight">
             <div class="theme-preview-dot" style="background: #38bdf8;"></div>
-            <span>মিডনাইট</span>
+            <span class="theme-name">মিডনাইট</span>
           </div>
           <div class="theme-card" data-theme="sand">
             <div class="theme-preview-dot" style="background: #d97706;"></div>
-            <span>মদিনা স্যান্ড</span>
+            <span class="theme-name">মদিনা স্যান্ড</span>
           </div>
           <div class="theme-card" data-theme="night">
             <div class="theme-preview-dot" style="background: #262626; border-color: #d4af37;"></div>
-            <span>ওলেড নাইট</span>
+            <span class="theme-name">ওলেড নাইট</span>
           </div>
           <div class="theme-card" data-theme="rosegold">
             <div class="theme-preview-dot" style="background: #f472b6;"></div>
-            <span>রোজ গোল্ড</span>
+            <span class="theme-name">রোজ গোল্ড</span>
           </div>
           <div class="theme-card" data-theme="royalamber">
             <div class="theme-preview-dot" style="background: #f59e0b;"></div>
-            <span>রয়্যাল অ্যাম্বার</span>
+            <span class="theme-name">রয়্যাল অ্যাম্বার</span>
           </div>
         </div>
       </div>
@@ -298,7 +298,7 @@
         </button>
       </div>
 
-      <div style="margin-top: 20px; font-size: 0.72rem; color: var(--text-muted); text-align: center;">
+      <div id="footer-tagline" style="margin-top: 20px; font-size: 0.72rem; color: var(--text-muted); text-align: center;">
         ১০০% অফলাইন • কোনো বিজ্ঞাপন নেই • প্রাইভেট ও নিরাপদ<br>
         <strong>[made with ♥ by ©munabbiRMushran]</strong>
       </div>

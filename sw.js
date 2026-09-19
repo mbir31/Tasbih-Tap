@@ -1,10 +1,12 @@
-const CACHE_NAME = 'tasbih-tap-pwa-v1';
+const CACHE_NAME = 'tasbih-tap-pwa-v2';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './style.css',
   './app.js',
-  './manifest.json'
+  './manifest.json',
+  './icon-192.png',
+  './icon-512.png'
 ];
 
 self.addEventListener('install', (event) => {
@@ -45,8 +47,11 @@ self.addEventListener('fetch', (event) => {
         });
         return networkResponse;
       }).catch(() => {
-        // Offline fallback if needed
-        return caches.match('./index.html');
+        // Offline navigation fallback
+        if (event.request.mode === 'navigate') {
+          return caches.match('./index.html');
+        }
+        return null;
       });
     })
   );

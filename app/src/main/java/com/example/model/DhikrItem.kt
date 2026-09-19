@@ -79,7 +79,7 @@ object DhikrPresets {
             name = "Allahu Akbar",
             arabic = "اللَّهُ أَكْبَرُ",
             meaning = "Allah is the Greatest",
-            defaultTarget = 33,
+            defaultTarget = 34,
             nameRes = R.string.dhikr_allahu_akbar_name,
             meaningRes = R.string.dhikr_allahu_akbar_meaning,
             category = "Essential"
@@ -169,7 +169,7 @@ object DhikrPresets {
             name = "Ayat e Kareema (Dua of Yunus)",
             arabic = "لَا إِلَهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ",
             meaning = "None has the right to be worshiped but You, exalted are You, indeed I have been of the wrongdoers",
-            defaultTarget = 40,
+            defaultTarget = 100,
             nameRes = R.string.dhikr_yunus_dua_name,
             meaningRes = R.string.dhikr_yunus_dua_meaning,
             category = "Supplication"
