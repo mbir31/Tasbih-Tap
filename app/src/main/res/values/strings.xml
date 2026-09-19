@@ -54,6 +54,7 @@
     <string name="category_salawat">Salawat</string>
     <string name="category_supplication">Supplication</string>
     <string name="category_praise">Praise</string>
+    <string name="category_quranic">Quranic</string>
     <string name="search_dhikr_placeholder">Search dhikr or translation…</string>
 
     <!-- History Screen -->
@@ -94,6 +95,25 @@
     <string name="keep_screen_awake_desc">Prevent screen from sleeping while counting</string>
     <string name="volume_key_counting">Volume Key Counting</string>
     <string name="volume_key_counting_desc">Use volume buttons to count with physical feedback</string>
+
+    <!-- Screen-Off Feature -->
+    <string name="screen_off_counting_title">Screen-Off Back Tap</string>
+    <string name="screen_off_counting_desc">Keep back-tap counter active even when the screen is turned off or locked</string>
+    <string name="screen_off_mode">Screen-Off Mode</string>
+    <string name="screen_off_mode_desc">Enter OLED pitch-black stealth mode for battery saving and distraction-free counting</string>
+    <string name="enter_screen_off_mode">Enter Screen-Off Mode</string>
+    <string name="exit_screen_off_mode">Exit Screen-Off Mode</string>
+    <string name="screen_off_stealth_tap">Tap Screen in Stealth Mode</string>
+    <string name="screen_off_stealth_tap_desc">Allow tapping anywhere on dark screen to count</string>
+    <string name="screen_off_notif_title">Tasbih Tap • Screen-Off Active</string>
+    <string name="screen_off_notif_content">%1$s: %2$d / %3$s • Round %4$d (Back-tap active)</string>
+    <string name="screen_off_notif_stop">Stop</string>
+    <string name="screen_off_notif_stealth">Stealth HUD</string>
+    <string name="screen_off_double_tap_hint">Double-tap anywhere or press back to exit</string>
+    <string name="screen_off_back_tap_active">Back-Tap Sensor Active</string>
+    <string name="screen_off_stealth_title">OLED Stealth Mode</string>
+    <string name="screen_off_status_ready">Screen-Off Ready</string>
+
     <string name="islamic_themes">Islamic Themes</string>
     <string name="privacy_philosophy">Privacy &amp; Philosophy</string>
     <string name="offline_private_title">100% Offline &amp; Private</string>
@@ -152,6 +172,50 @@
     <string name="dhikr_sayyidul_istighfar_meaning">Chief supplication for forgiveness</string>
     <string name="dhikr_yunus_dua_name">Ayat e Kareema (Dua of Yunus)</string>
     <string name="dhikr_yunus_dua_meaning">Exalted are You, indeed I was of the wrongdoers</string>
+    <string name="dhikr_tamjeed_name">Kalima Tamjeed</string>
+    <string name="dhikr_tamjeed_meaning">Glory be to Allah, praise be to Allah, there is no god but Allah, and Allah is the Greatest</string>
+    <string name="dhikr_subhanallahi_wa_bihamdihi_adada_name">SubhanAllahi wa bihamdihi ‘adada khalqihi</string>
+    <string name="dhikr_subhanallahi_wa_bihamdihi_adada_meaning">Glory to Allah and praise Him, according to the number of His creation and weight of His Throne</string>
+    <string name="dhikr_la_ilaha_wahdahu_name">La ilaha illallahu wahdahu la shareeka lah</string>
+    <string name="dhikr_la_ilaha_wahdahu_meaning">None has the right to be worshipped except Allah alone, with no partner or associate</string>
+    <string name="dhikr_ya_hayyu_ya_qayyum_name">Ya Hayyu Ya Qayyum</string>
+    <string name="dhikr_ya_hayyu_ya_qayyum_meaning">O Ever-Living, O Self-Sustaining</string>
+    <string name="dhikr_ya_dhal_jalali_name">Ya Dhal Jalali wal Ikram</string>
+    <string name="dhikr_ya_dhal_jalali_meaning">O Owner of Majesty and Honor</string>
+    <string name="dhikr_radheetu_billah_name">Radheetu Billahi Rabba</string>
+    <string name="dhikr_radheetu_billah_meaning">I am pleased with Allah as my Lord, Islam as my religion, and Muhammad ﷺ as my Prophet</string>
+    <string name="dhikr_astaghfirullah_wa_atubu_name">Astaghfirullaha wa Atubu Ilayh</string>
+    <string name="dhikr_astaghfirullah_wa_atubu_meaning">I seek forgiveness of Allah and turn unto Him in repentance</string>
+    <string name="dhikr_rabbighfirli_name">Rabbighfir li wa tub \'alayya</string>
+    <string name="dhikr_rabbighfirli_meaning">My Lord! Forgive me and accept my repentance, surely You are the Accepter of Repentance, the Merciful</string>
+    <string name="dhikr_astaghfirullah_alazeem_alladhi_name">Astaghfirullahal Azeem alladhi la ilaha illa Huwa</string>
+    <string name="dhikr_astaghfirullah_alazeem_alladhi_meaning">I seek forgiveness from Allah the Almighty, whom there is no deity but He, the Living, the Eternal, and I repent to Him</string>
+    <string name="dhikr_durood_ibrahim_name">Durood-e-Ibrahim</string>
+    <string name="dhikr_durood_ibrahim_meaning">The complete and most virtuous prayer for blessings upon Prophet Muhammad ﷺ</string>
+    <string name="dhikr_sallallahu_alayhi_wa_sallam_name">Sallallahu ‘Alayhi Wa Sallam</string>
+    <string name="dhikr_sallallahu_alayhi_wa_sallam_meaning">May Allah honor him and grant him peace</string>
+    <string name="dhikr_bismillahil_ladhi_name">Bismillahilladhi la yadurru ma\'asmihi shay\'</string>
+    <string name="dhikr_bismillahil_ladhi_meaning">In the Name of Allah, with Whose Name nothing can cause harm in earth or heaven</string>
+    <string name="dhikr_ya_hayyu_bi_rahmatika_name">Ya Hayyu Ya Qayyum bi-rahmatika astagheeth</string>
+    <string name="dhikr_ya_hayyu_bi_rahmatika_meaning">O Ever-Living, O Sustainer! By Your mercy I seek assistance; rectify all my affairs</string>
+    <string name="dhikr_allahumma_ajirni_name">Allahumma ajirni minan-nar</string>
+    <string name="dhikr_allahumma_ajirni_meaning">O Allah, save me from the Fire of Hell</string>
+    <string name="dhikr_allahumma_innee_as_aluka_jannah_name">Allahumma inni as\'alukal-Jannah</string>
+    <string name="dhikr_allahumma_innee_as_aluka_jannah_meaning">O Allah, I ask You for Paradise</string>
+    <string name="dhikr_allahumma_inffaka_afuwwun_name">Allahumma innaka \'Afuwwun tuhibbul \'afwa fa\'fu \'anni</string>
+    <string name="dhikr_allahumma_inffaka_afuwwun_meaning">O Allah, You are Most Forgiving, and You love to forgive, so forgive me</string>
+    <string name="dhikr_rabbana_atina_name">Rabbana Atina fid-Dunya Hasanatan</string>
+    <string name="dhikr_rabbana_atina_meaning">Our Lord, give us in this world good and in the Hereafter good and protect us from the Fire</string>
+    <string name="dhikr_rabbi_innee_lima_anzalta_name">Rabbi inni lima anzalta ilayya min khayrin faqeer</string>
+    <string name="dhikr_rabbi_innee_lima_anzalta_meaning">My Lord, indeed I am, for whatever good You would send down to me, in need</string>
+    <string name="dhikr_rabbir_hamhuma_name">Rabbir-hamhuma kama rabbayani sagheera</string>
+    <string name="dhikr_rabbir_hamhuma_meaning">My Lord, have mercy upon my parents as they brought me up when I was small</string>
+    <string name="dhikr_rabbana_hablana_min_azwajina_name">Rabbana hab lana min azwajina wa dhurriyyatina</string>
+    <string name="dhikr_rabbana_hablana_min_azwajina_meaning">Our Lord, grant us from among our spouses and offspring comfort to our eyes</string>
+    <string name="dhikr_rabbi_zidni_ilma_name">Rabbi Zidni \'Ilma</string>
+    <string name="dhikr_rabbi_zidni_ilma_meaning">My Lord, increase me in knowledge</string>
+    <string name="dhikr_rabbish_rahli_sadri_name">Rabbish-rah li sadri wa yassir li amri</string>
+    <string name="dhikr_rabbish_rahli_sadri_meaning">My Lord, expand for me my breast and ease for me my task</string>
 
     <!-- Sensitivity Names -->
     <string name="sensitivity_low">Low (Firm tap)</string>

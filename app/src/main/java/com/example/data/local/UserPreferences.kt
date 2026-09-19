@@ -99,6 +99,14 @@ class UserPreferences(context: Context) {
         get() = prefs.getBoolean(KEY_KEEP_SCREEN_AWAKE, true)
         set(value) = prefs.edit().putBoolean(KEY_KEEP_SCREEN_AWAKE, value).apply()
 
+    var isScreenOffCountingEnabled: Boolean
+        get() = prefs.getBoolean(KEY_SCREEN_OFF_COUNTING, true)
+        set(value) = prefs.edit().putBoolean(KEY_SCREEN_OFF_COUNTING, value).apply()
+
+    var isScreenOffStealthTapEnabled: Boolean
+        get() = prefs.getBoolean(KEY_SCREEN_OFF_STEALTH_TAP, true)
+        set(value) = prefs.edit().putBoolean(KEY_SCREEN_OFF_STEALTH_TAP, value).apply()
+
     companion object {
         private const val KEY_CURRENT_COUNT = "current_count"
         private const val KEY_TARGET = "target"
@@ -117,5 +125,7 @@ class UserPreferences(context: Context) {
         private const val KEY_THEME = "selected_theme"
         private const val KEY_VOLUME_KEY_COUNTING = "volume_key_counting"
         private const val KEY_KEEP_SCREEN_AWAKE = "keep_screen_awake"
+        private const val KEY_SCREEN_OFF_COUNTING = "screen_off_counting"
+        private const val KEY_SCREEN_OFF_STEALTH_TAP = "screen_off_stealth_tap"
     }
 }

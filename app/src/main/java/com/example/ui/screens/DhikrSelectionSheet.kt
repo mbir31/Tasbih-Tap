@@ -43,6 +43,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.ui.graphics.Color
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -89,10 +90,11 @@ fun DhikrSelectionSheet(
     val categories = listOf(
         "All" to stringResource(R.string.category_all),
         "Essential" to stringResource(R.string.category_essential),
+        "Praise" to stringResource(R.string.category_praise),
         "Forgiveness" to stringResource(R.string.category_forgiveness),
         "Salawat" to stringResource(R.string.category_salawat),
         "Supplication" to stringResource(R.string.category_supplication),
-        "Praise" to stringResource(R.string.category_praise)
+        "Quranic" to stringResource(R.string.category_quranic)
     )
 
     ModalBottomSheet(
@@ -121,7 +123,8 @@ fun DhikrSelectionSheet(
                     colors = CardDefaults.cardColors(
                         containerColor = if (is33x3Mode) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
                     ),
-                    shape = RoundedCornerShape(16.dp)
+                    shape = RoundedCornerShape(20.dp),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, Color.White.copy(alpha = 0.08f))
                 ) {
                     Row(
                         modifier = Modifier
@@ -151,8 +154,10 @@ fun DhikrSelectionSheet(
                                 onDismiss()
                             },
                             colors = SwitchDefaults.colors(
-                                checkedThumbColor = MaterialTheme.colorScheme.primary,
-                                checkedTrackColor = MaterialTheme.colorScheme.primaryContainer
+                                checkedThumbColor = Color.White,
+                                checkedTrackColor = Color(0xFF30D158),
+                                uncheckedThumbColor = Color.White,
+                                uncheckedTrackColor = Color(0xFF39393D)
                             )
                         )
                     }
@@ -490,10 +495,10 @@ private fun DhikrListItem(
         colors = CardDefaults.cardColors(
             containerColor = if (isSelected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface
         ),
-        shape = RoundedCornerShape(14.dp),
+        shape = RoundedCornerShape(18.dp),
         border = androidx.compose.foundation.BorderStroke(
             width = 1.dp,
-            color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+            color = if (isSelected) MaterialTheme.colorScheme.primary else Color.White.copy(alpha = 0.08f)
         )
     ) {
         Row(

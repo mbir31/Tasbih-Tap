@@ -131,6 +131,7 @@ class MainActivity : ComponentActivity() {
                                     selectedTheme = uiState.selectedTheme,
                                     keepScreenAwake = uiState.keepScreenAwake,
                                     volumeKeyCounting = uiState.isVolumeKeyCountingEnabled,
+                                    isScreenOffCountingEnabled = uiState.isScreenOffCountingEnabled,
                                     backTapDetector = viewModel.backTapDetector,
                                     onToggleBackTap = { viewModel.toggleBackTap(it) },
                                     onSelectSensitivity = { viewModel.setSensitivity(it) },
@@ -140,6 +141,7 @@ class MainActivity : ComponentActivity() {
                                     onSelectTheme = { viewModel.selectTheme(it) },
                                     onToggleKeepScreenAwake = { viewModel.toggleKeepScreenAwake(it) },
                                     onToggleVolumeKeyCounting = { viewModel.toggleVolumeKeyCounting(it) },
+                                    onToggleScreenOffCounting = { viewModel.toggleScreenOffCounting(it) },
                                     onBack = { currentScreen = CurrentScreen.COUNTER }
                                 )
                             }

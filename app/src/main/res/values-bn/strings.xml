@@ -54,6 +54,7 @@
     <string name="category_salawat">দুরূদ</string>
     <string name="category_supplication">দোআ</string>
     <string name="category_praise">প্রশংসা</string>
+    <string name="category_quranic">কুরআনি দু\'আ</string>
     <string name="search_dhikr_placeholder">যিকির বা অর্থ অনুসন্ধান করুন…</string>
 
     <!-- History Screen -->
@@ -94,6 +95,25 @@
     <string name="keep_screen_awake_desc">গণনার সময় ফোনের স্ক্রিন বন্ধ হওয়া রোধ করুন</string>
     <string name="volume_key_counting">ভলিউম বাটন গণনা</string>
     <string name="volume_key_counting_desc">বাস্তব অভিজ্ঞতায় ভলিউম বোতাম চেপে গণনা করুন</string>
+
+    <!-- Screen-Off Feature -->
+    <string name="screen_off_counting_title">স্ক্রিন-অফ ব্যাক ট্যাপ</string>
+    <string name="screen_off_counting_desc">মোবাইলের স্ক্রিন বন্ধ বা লক থাকলেও পিছনের ট্যাপ দিয়ে তাসবীহ গণনা চালু রাখুন</string>
+    <string name="screen_off_mode">স্ক্রিন-অফ মোড</string>
+    <string name="screen_off_mode_desc">ব্যাটারি সাশ্রয় ও সম্পূর্ণ মনোযোগের জন্য OLED পিচ-ব্ল্যাক স্টেলথ স্ক্রিনে যান</string>
+    <string name="enter_screen_off_mode">স্ক্রিন-অফ মোডে যান</string>
+    <string name="exit_screen_off_mode">স্ক্রিন-অফ মোড থেকে বের হন</string>
+    <string name="screen_off_stealth_tap">স্টেলথ মোডে স্ক্রিন ট্যাপ</string>
+    <string name="screen_off_stealth_tap_desc">পিছনের ট্যাপের পাশাপাশি অন্ধকার স্ক্রিনের যেকোনো জায়গায় ট্যাপ করে গণনা</string>
+    <string name="screen_off_notif_title">তাসবীহ ট্যাপ • স্ক্রিন-অফ চালু</string>
+    <string name="screen_off_notif_content">%1$s: %2$d / %3$s • রাউন্ড %4$d (ব্যাক-ট্যাপ সক্রিয়)</string>
+    <string name="screen_off_notif_stop">বন্ধ করুন</string>
+    <string name="screen_off_notif_stealth">স্টেলথ স্ক্রিন</string>
+    <string name="screen_off_double_tap_hint">বের হতে যেকোনো জায়গায় ডাবল-ট্যাপ বা ব্যাক বাটন চাপুন</string>
+    <string name="screen_off_back_tap_active">পিছনের ট্যাপ সেন্সর সক্রিয়</string>
+    <string name="screen_off_stealth_title">OLED স্টেলথ মোড</string>
+    <string name="screen_off_status_ready">স্ক্রিন-অফ সক্রিয়</string>
+
     <string name="islamic_themes">ইসলামিক থিম</string>
     <string name="privacy_philosophy">গোপনীয়তা ও দর্শন</string>
     <string name="offline_private_title">১০০% অফলাইন ও সম্পূর্ণ ব্যক্তিগত</string>
@@ -152,6 +172,50 @@
     <string name="dhikr_sayyidul_istighfar_meaning">তওবা ও ক্ষমার শ্রেষ্ঠতম প্রধান দোআ</string>
     <string name="dhikr_yunus_dua_name">দোআয়ে ইউনুস (আয়াতুল কারীমা)</string>
     <string name="dhikr_yunus_dua_meaning">আপনি ব্যতীত কোনো উপাস্য নেই, আপনি পরম পবিত্র, নিশ্চয়ই আমি অপরাধীদের অন্তর্ভুক্ত</string>
+    <string name="dhikr_tamjeed_name">কালিমা তামজীদ</string>
+    <string name="dhikr_tamjeed_meaning">আল্লাহ অতি পবিত্র, সকল প্রশংসা আল্লাহর, আল্লাহ ছাড়া কোনো উপাস্য নেই এবং আল্লাহ সর্বশ্রেষ্ঠ</string>
+    <string name="dhikr_subhanallahi_wa_bihamdihi_adada_name">সুবহানাল্লাহি ওয়া বিহামদিহী ‘আদাদা খালকিহী</string>
+    <string name="dhikr_subhanallahi_wa_bihamdihi_adada_meaning">তাঁর সৃষ্টির সংখ্যা পরিমাণ, সন্তুষ্টি পরিমাণ ও আরশের ওজন পরিমাণ আল্লাহর পবিত্রতা ও প্রশংসা করছি</string>
+    <string name="dhikr_la_ilaha_wahdahu_name">লা ইলাহা ইল্লাল্লাহু ওয়াহদাহু লা শারীকা লাহু</string>
+    <string name="dhikr_la_ilaha_wahdahu_meaning">আল্লাহ ব্যতীত কোনো সত্য উপাস্য নেই, তিনি একক, তাঁর কোনো অংশীদার নেই</string>
+    <string name="dhikr_ya_hayyu_ya_qayyum_name">ইয়া হাইয়্যু ইয়া কাইয়্যূম</string>
+    <string name="dhikr_ya_hayyu_ya_qayyum_meaning">হে চিরঞ্জীব, হে সর্বসত্তার ধারক</string>
+    <string name="dhikr_ya_dhal_jalali_name">ইয়া যাল জালালি ওয়াল ইকরাম</string>
+    <string name="dhikr_ya_dhal_jalali_meaning">হে মহিমা ও পরম অনুগ্রহের অধিকারী</string>
+    <string name="dhikr_radheetu_billah_name">রাদীতু বিল্লাহি রব্বা</string>
+    <string name="dhikr_radheetu_billah_meaning">আমি সন্তুষ্টচিত্তে আল্লাহকে রব, ইসলামকে দ্বীন এবং মুহাম্মদ ﷺ কে রাসুল হিসেবে মেনে নিয়েছি</string>
+    <string name="dhikr_astaghfirullah_wa_atubu_name">আস্তাগফিরুল্লাহ ওয়া আতুবু ইলাইহি</string>
+    <string name="dhikr_astaghfirullah_wa_atubu_meaning">আমি আল্লাহর ক্ষমা প্রার্থনা করছি এবং তাঁরই দিকে তওবা করছি</string>
+    <string name="dhikr_rabbighfirli_name">রব্বিগফির লী ওয়া তুব \'আলাইয়্যা</string>
+    <string name="dhikr_rabbighfirli_meaning">হে আমার রব! আমাকে ক্ষমা করুন ও আমার তওবা কবুল করুন, নিশ্চয় আপনি অতি তওবা কবুলকারী ও পরম দয়ালু</string>
+    <string name="dhikr_astaghfirullah_alazeem_alladhi_name">আস্তাগফিরুল্লাহাল \'আযীম আল্লাযী লা ইলাহা ইল্লা হু</string>
+    <string name="dhikr_astaghfirullah_alazeem_alladhi_meaning">আমি আল্লাহর ক্ষমা চাই যিনি ছাড়া কোনো উপাস্য নেই, তিনি চিরঞ্জীব, সর্বধারক এবং তাঁর কাছেই তওবা করছি</string>
+    <string name="dhikr_durood_ibrahim_name">দরূদে ইবরাহীম</string>
+    <string name="dhikr_durood_ibrahim_meaning">শ্রেষ্ঠ সালাওয়াত (নামাযে পঠিত দরূদে ইবরাহীম)</string>
+    <string name="dhikr_sallallahu_alayhi_wa_sallam_name">সাল্লাল্লাহু \'আলাইহি ওয়া সাল্লাম</string>
+    <string name="dhikr_sallallahu_alayhi_wa_sallam_meaning">তাঁর উপর আল্লাহর দরূদ ও অফুরন্ত শান্তি বর্ষিত হোক</string>
+    <string name="dhikr_bismillahil_ladhi_name">বিসমিল্লাহিল্লাযী লা ইয়াদুররু মা\'আস্মিহী</string>
+    <string name="dhikr_bismillahil_ladhi_meaning">আল্লাহর নামে, যাঁর নামের সাথে আসমান ও যমীনের কোনো বস্তুই অনিষ্ট করতে পারে না</string>
+    <string name="dhikr_ya_hayyu_bi_rahmatika_name">ইয়া হাইয়্যু ইয়া কাইয়্যূম বিরাহমাতিকা আস্তাগীস</string>
+    <string name="dhikr_ya_hayyu_bi_rahmatika_meaning">হে চিরঞ্জীব, হে সর্বধারক! আপনার রহমতের উসিলায় সাহায্য চাই, আমার সকল কাজ সঠিক করে দিন</string>
+    <string name="dhikr_allahumma_ajirni_name">আল্লাহুম্মা আজিরনী মিনান-নার</string>
+    <string name="dhikr_allahumma_ajirni_meaning">হে আল্লাহ! আমাকে জাহান্নামের আগুন থেকে রক্ষা করুন</string>
+    <string name="dhikr_allahumma_innee_as_aluka_jannah_name">আল্লাহুম্মা ইন্নী আসআলুকাল জান্নাহ</string>
+    <string name="dhikr_allahumma_innee_as_aluka_jannah_meaning">হে আল্লাহ! আমি আপনার নিকট জান্নাত প্রার্থনা করছি</string>
+    <string name="dhikr_allahumma_inffaka_afuwwun_name">আল্লাহুম্মা ইন্নাকা আফুওয়্যুন</string>
+    <string name="dhikr_allahumma_inffaka_afuwwun_meaning">হে আল্লাহ! নিশ্চয় আপনি ক্ষমাশীল, ক্ষমাকে ভালোবাসেন, অতএব আমাকে ক্ষমা করে দিন</string>
+    <string name="dhikr_rabbana_atina_name">রব্বানা আতিনা ফিদ্দুনইয়া হাসানাহ</string>
+    <string name="dhikr_rabbana_atina_meaning">হে আমাদের প্রতিপালক! আমাদের ইহকালে কল্যাণ দিন, পরকালেও কল্যাণ দিন এবং দোযখের আযাব থেকে রক্ষা করুন</string>
+    <string name="dhikr_rabbi_innee_lima_anzalta_name">দু\'আ মূসা (আ.) - রব্বি ইন্নী লিমা আনযালতা</string>
+    <string name="dhikr_rabbi_innee_lima_anzalta_meaning">হে আমার পালনকর্তা, আপনি আমার প্রতি যে অনুগ্রহই নাযিল করবেন, আমি তার মুখাপেক্ষী</string>
+    <string name="dhikr_rabbir_hamhuma_name">পিতামাতার জন্য দু\'আ - রব্বির হামহুমা</string>
+    <string name="dhikr_rabbir_hamhuma_meaning">হে আমার প্রতিপালক! পিতা-মাতার প্রতি দয়া করুন যেমন তাঁরা শৈশবে আমাকে স্নেহভরে প্রতিপালন করেছেন</string>
+    <string name="dhikr_rabbana_hablana_min_azwajina_name">পরিবারের কল্যাণে দু\'আ - রব্বানা হাবলানা</string>
+    <string name="dhikr_rabbana_hablana_min_azwajina_meaning">হে আমাদের রব! আমাদের জীবনসঙ্গী ও সন্তানদের আমাদের জন্য নয়নপ্রীতিকর করুন এবং মুত্তাকীদের নেতা করুন</string>
+    <string name="dhikr_rabbi_zidni_ilma_name">রব্বি যিদনী ইলমা</string>
+    <string name="dhikr_rabbi_zidni_ilma_meaning">হে আমার পালনকর্তা! আমার জ্ঞান বৃদ্ধি করে দিন</string>
+    <string name="dhikr_rabbish_rahli_sadri_name">রব্বিশ রাহলী সদরী</string>
+    <string name="dhikr_rabbish_rahli_sadri_meaning">হে আমার রব! আমার বক্ষ প্রশস্ত করে দিন এবং আমার কাজ সহজ করে দিন</string>
 
     <!-- Sensitivity Names -->
     <string name="sensitivity_low">কম (দৃঢ় ট্যাপ)</string>

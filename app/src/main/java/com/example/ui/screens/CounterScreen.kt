@@ -15,14 +15,18 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowRight
@@ -106,45 +110,45 @@ fun CounterScreen(
                 .fillMaxSize()
                 .statusBarsPadding()
                 .navigationBarsPadding()
-                .padding(horizontal = 16.dp, vertical = 10.dp),
+                .padding(horizontal = 16.dp, vertical = 6.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            // Top Bar: Prominent Dynamic Action Cards for Dhikr Selector, History, and Settings
+            // --- TOP NAVIGATION BAR: iOS Capsule Action Cards ---
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 2.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                // Expanded Dynamic Dhikr Selector Action Card
                 val dhikrTitle = if (state.is33x3Mode) {
                     stringResource(R.string.misbaha_33x3)
                 } else {
                     state.activeDhikr.getLocalizedName(context)
                 }
 
+                // iOS Frosted Capsule Pill: Current Dhikr & Target
                 Card(
                     onClick = onOpenDhikrSheet,
                     modifier = Modifier
                         .weight(1f)
-                        .height(56.dp)
-                        .shadow(elevation = 3.dp, shape = RoundedCornerShape(18.dp))
+                        .height(52.dp)
+                        .shadow(elevation = 8.dp, shape = RoundedCornerShape(20.dp), ambientColor = Color.Black.copy(alpha = 0.3f))
                         .testTag("dhikr_selector_pill"),
-                    shape = RoundedCornerShape(18.dp),
+                    shape = RoundedCornerShape(20.dp),
                     colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.surface
+                        containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.90f)
                     ),
                     border = androidx.compose.foundation.BorderStroke(
-                        width = 1.2.dp,
-                        color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.35f)
+                        width = 1.dp,
+                        color = Color.White.copy(alpha = 0.12f)
                     )
                 ) {
                     Row(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(horizontal = 14.dp),
+                            .padding(horizontal = 12.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
@@ -154,40 +158,35 @@ fun CounterScreen(
                         ) {
                             Box(
                                 modifier = Modifier
-                                    .size(36.dp)
+                                    .size(32.dp)
                                     .background(
-                                        brush = Brush.radialGradient(
-                                            listOf(
-                                                MaterialTheme.colorScheme.secondary.copy(alpha = 0.25f),
-                                                MaterialTheme.colorScheme.secondary.copy(alpha = 0.05f)
-                                            )
-                                        ),
-                                        shape = RoundedCornerShape(10.dp)
+                                        color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.18f),
+                                        shape = CircleShape
                                     )
                                     .border(
                                         width = 1.dp,
-                                        color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.4f),
-                                        shape = RoundedCornerShape(10.dp)
+                                        color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.35f),
+                                        shape = CircleShape
                                     ),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
                                     text = if (state.is33x3Mode) "33" else state.activeDhikr.arabic.take(1),
-                                    style = MaterialTheme.typography.titleSmall.copy(
+                                    style = MaterialTheme.typography.labelMedium.copy(
                                         fontWeight = FontWeight.Bold,
                                         color = MaterialTheme.colorScheme.secondary
                                     )
                                 )
                             }
 
-                            Spacer(modifier = Modifier.width(10.dp))
+                            Spacer(modifier = Modifier.width(8.dp))
 
                             Column {
                                 Text(
                                     text = dhikrTitle,
                                     style = MaterialTheme.typography.titleSmall.copy(
-                                        fontWeight = FontWeight.Bold,
-                                        fontSize = 14.sp
+                                        fontWeight = FontWeight.SemiBold,
+                                        fontSize = 13.5.sp
                                     ),
                                     color = MaterialTheme.colorScheme.onSurface,
                                     maxLines = 1,
@@ -196,7 +195,8 @@ fun CounterScreen(
                                 Text(
                                     text = if (state.is33x3Mode) stringResource(R.string.mode_33x3_title) else if (state.isUnlimited) stringResource(R.string.unlimited) else stringResource(R.string.target_prefix, state.target),
                                     style = MaterialTheme.typography.labelSmall.copy(
-                                        color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.9f),
+                                        color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.95f),
+                                        fontSize = 11.sp,
                                         fontWeight = FontWeight.Medium
                                     )
                                 )
@@ -207,21 +207,32 @@ fun CounterScreen(
                             imageVector = Icons.Default.KeyboardArrowDown,
                             contentDescription = stringResource(R.string.select_dhikr),
                             tint = MaterialTheme.colorScheme.secondary,
-                            modifier = Modifier.size(20.dp)
+                            modifier = Modifier.size(18.dp)
                         )
                     }
                 }
 
-                // History Action Card Button
-                TopMenuActionCard(
+                // Stealth / Screen-Off Mode Action Button
+                IosCircularActionButton(
+                    icon = Icons.Default.DarkMode,
+                    contentDesc = stringResource(R.string.enter_screen_off_mode),
+                    testTag = "open_screen_off_button",
+                    onClick = {
+                        val intent = android.content.Intent(context, com.example.ScreenOffActivity::class.java)
+                        context.startActivity(intent)
+                    }
+                )
+
+                // History Action Button
+                IosCircularActionButton(
                     icon = Icons.Default.History,
                     contentDesc = stringResource(R.string.history),
                     testTag = "open_history_button",
                     onClick = onOpenHistory
                 )
 
-                // Settings & Customization Action Card Button
-                TopMenuActionCard(
+                // Settings & Customization Action Button
+                IosCircularActionButton(
                     icon = Icons.Default.Tune,
                     contentDesc = stringResource(R.string.settings),
                     testTag = "open_settings_button",
@@ -229,138 +240,197 @@ fun CounterScreen(
                 )
             }
 
-            // Dhikr Presentation: Arabic, Transliteration/Name, Round / 33x3 progression
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.padding(vertical = 4.dp)
+            // --- iOS FROSTED PRESENTATION CARD (Dhikr, Meaning, Sunnah Progress) ---
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 4.dp)
+                    .shadow(elevation = 6.dp, shape = RoundedCornerShape(22.dp)),
+                shape = RoundedCornerShape(22.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f)
+                ),
+                border = androidx.compose.foundation.BorderStroke(
+                    width = 1.dp,
+                    color = Color.White.copy(alpha = 0.10f)
+                )
             ) {
-                // Arabic text with large font and high legibility
-                Text(
-                    text = state.activeDhikr.arabic,
-                    style = MaterialTheme.typography.headlineLarge.copy(
-                        fontSize = if (state.activeDhikr.arabic.length > 25) 26.sp else 33.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.secondary,
-                        lineHeight = 38.sp
-                    ),
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(horizontal = 8.dp)
-                )
-
-                Spacer(modifier = Modifier.height(4.dp))
-
-                Text(
-                    text = state.activeDhikr.getLocalizedName(context),
-                    style = MaterialTheme.typography.titleMedium.copy(
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.88f),
-                        fontWeight = FontWeight.Medium,
-                        fontSize = 15.sp
-                    ),
-                    textAlign = TextAlign.Center
-                )
-
-                Spacer(modifier = Modifier.height(6.dp))
-
-                // Mode / Round badge
-                if (state.is33x3Mode) {
-                    // 33x3 progression display
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center,
-                        modifier = Modifier
-                            .background(
-                                color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.55f),
-                                shape = RoundedCornerShape(14.dp)
-                            )
-                            .border(
-                                width = 1.dp,
-                                color = MaterialTheme.colorScheme.outline.copy(alpha = 0.15f),
-                                shape = RoundedCornerShape(14.dp)
-                            )
-                            .padding(horizontal = 12.dp, vertical = 5.dp)
-                    ) {
-                        val stagePresets = DhikrPresets.THIRTY_THREE_TIMES_THREE
-                        stagePresets.forEachIndexed { index, preset ->
-                            val count = state.mode33x3Counts[index]
-                            val isCurrent = state.mode33x3Stage == index
-                            val stageTarget = if (index == 2) 34 else 33
-                            val isDone = count >= stageTarget
-                            val stageName = preset.getLocalizedName(context)
-                            val shortName = if (stageName.length > 5) stageName.take(4) else stageName
-
-                            Text(
-                                text = "$shortName: $count" + (if (isDone) "✓" else ""),
-                                style = MaterialTheme.typography.labelSmall,
-                                fontWeight = if (isCurrent) FontWeight.Bold else FontWeight.Normal,
-                                color = if (isCurrent) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                            if (index < stagePresets.size - 1) {
-                                Text(
-                                    text = " • ",
-                                    style = MaterialTheme.typography.labelSmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
-                                )
-                            }
-                        }
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 14.dp, vertical = 10.dp)
+                ) {
+                    // Arabic script with adaptive sizing (never pushes ring offscreen)
+                    val arabicText = state.activeDhikr.arabic
+                    val fontSize = when {
+                        arabicText.length > 80 -> 18.sp
+                        arabicText.length > 40 -> 22.sp
+                        arabicText.length > 20 -> 26.sp
+                        else -> 30.sp
                     }
-                } else {
-                    Surface(
-                        shape = RoundedCornerShape(12.dp),
-                        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+                    val lineHeight = when {
+                        arabicText.length > 80 -> 26.sp
+                        arabicText.length > 40 -> 30.sp
+                        else -> 36.sp
+                    }
+
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .heightIn(max = 84.dp)
+                            .verticalScroll(rememberScrollState()),
+                        contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = if (state.isUnlimited) stringResource(R.string.round_unlimited) else stringResource(R.string.round_format, state.round),
-                            style = MaterialTheme.typography.labelMedium.copy(
+                            text = arabicText,
+                            style = MaterialTheme.typography.headlineMedium.copy(
+                                fontSize = fontSize,
+                                fontWeight = FontWeight.Bold,
                                 color = MaterialTheme.colorScheme.secondary,
-                                fontWeight = FontWeight.SemiBold
+                                lineHeight = lineHeight
                             ),
-                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp)
+                            textAlign = TextAlign.Center
                         )
+                    }
+
+                    Spacer(modifier = Modifier.height(4.dp))
+
+                    // Transliteration / Name
+                    Text(
+                        text = state.activeDhikr.getLocalizedName(context),
+                        style = MaterialTheme.typography.titleSmall.copy(
+                            color = MaterialTheme.colorScheme.onSurface,
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 13.5.sp
+                        ),
+                        textAlign = TextAlign.Center,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+
+                    // Localized Meaning (Crucial user requested improvement)
+                    val localizedMeaning = state.activeDhikr.getLocalizedMeaning(context)
+                    if (localizedMeaning.isNotBlank()) {
+                        Spacer(modifier = Modifier.height(2.dp))
+                        Text(
+                            text = localizedMeaning,
+                            style = MaterialTheme.typography.bodySmall.copy(
+                                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.85f),
+                                fontSize = 11.5.sp,
+                                lineHeight = 15.sp
+                            ),
+                            textAlign = TextAlign.Center,
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+
+                    // Progress / Round indicator
+                    Spacer(modifier = Modifier.height(6.dp))
+                    if (state.is33x3Mode) {
+                        // 33x3 Sunnah Stage Pill Row
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center,
+                            modifier = Modifier
+                                .background(
+                                    color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.55f),
+                                    shape = RoundedCornerShape(12.dp)
+                                )
+                                .border(
+                                    width = 0.5.dp,
+                                    color = Color.White.copy(alpha = 0.12f),
+                                    shape = RoundedCornerShape(12.dp)
+                                )
+                                .padding(horizontal = 10.dp, vertical = 4.dp)
+                        ) {
+                            val stagePresets = DhikrPresets.THIRTY_THREE_TIMES_THREE
+                            stagePresets.forEachIndexed { index, preset ->
+                                val count = state.mode33x3Counts[index]
+                                val isCurrent = state.mode33x3Stage == index
+                                val stageTarget = if (index == 2) 34 else 33
+                                val isDone = count >= stageTarget
+                                val stageName = preset.getLocalizedName(context)
+                                val shortName = if (stageName.length > 6) stageName.take(5) else stageName
+
+                                Text(
+                                    text = "$shortName: $count" + (if (isDone) "✓" else ""),
+                                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 11.sp),
+                                    fontWeight = if (isCurrent) FontWeight.Bold else FontWeight.Normal,
+                                    color = if (isCurrent) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                                if (index < stagePresets.size - 1) {
+                                    Text(
+                                        text = " • ",
+                                        style = MaterialTheme.typography.labelSmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.35f)
+                                    )
+                                }
+                            }
+                        }
+                    } else {
+                        Surface(
+                            shape = RoundedCornerShape(10.dp),
+                            color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                            border = androidx.compose.foundation.BorderStroke(0.5.dp, Color.White.copy(alpha = 0.08f))
+                        ) {
+                            Text(
+                                text = if (state.isUnlimited) stringResource(R.string.round_unlimited) else stringResource(R.string.round_format, state.round),
+                                style = MaterialTheme.typography.labelSmall.copy(
+                                    color = MaterialTheme.colorScheme.secondary,
+                                    fontWeight = FontWeight.SemiBold,
+                                    fontSize = 11.sp
+                                ),
+                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp)
+                            )
+                        }
                     }
                 }
             }
 
-            // Central Circular Progress & Counter Ring
+            // --- CENTRAL CIRCULAR TASBIH RING (iOS Watch Activity Ring) ---
             CircularTasbihRing(
                 count = state.currentCount,
                 target = state.target,
                 isUnlimited = state.isUnlimited,
                 isCompleted = state.isCompleted,
                 onTap = onScreenTap,
-                ringSize = 250.dp
+                ringSize = 236.dp
             )
 
-            // Interaction Guidance / Status Pill
+            // --- INTERACTION GUIDANCE / STATUS CAPSULE ---
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.padding(vertical = 4.dp)
+                modifier = Modifier.padding(vertical = 2.dp)
             ) {
                 Surface(
                     shape = RoundedCornerShape(16.dp),
-                    color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                    color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.45f),
                     border = androidx.compose.foundation.BorderStroke(
                         width = 1.dp,
-                        color = if (state.isBackTapEnabled) MaterialTheme.colorScheme.primary.copy(alpha = 0.45f) else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.2f)
+                        color = if (state.isBackTapEnabled) MaterialTheme.colorScheme.primary.copy(alpha = 0.45f) else Color.White.copy(alpha = 0.08f)
                     )
                 ) {
                     Row(
-                        modifier = Modifier.padding(horizontal = 14.dp, vertical = 6.dp),
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 5.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Box(
                             modifier = Modifier
-                                .size(8.dp)
+                                .size(7.dp)
                                 .background(
                                     color = if (state.isBackTapEnabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
                                     shape = CircleShape
                                 )
                         )
-                        Spacer(modifier = Modifier.width(8.dp))
+                        Spacer(modifier = Modifier.width(6.dp))
                         Text(
                             text = if (state.isBackTapEnabled) stringResource(R.string.tap_back_to_count) else stringResource(R.string.tap_screen_to_count),
                             style = MaterialTheme.typography.labelSmall.copy(
                                 fontWeight = FontWeight.SemiBold,
-                                letterSpacing = 1.1.sp,
+                                letterSpacing = 0.8.sp,
+                                fontSize = 11.sp,
                                 color = MaterialTheme.colorScheme.onSurface
                             )
                         )
@@ -376,78 +446,57 @@ fun CounterScreen(
                     FilledTonalButton(
                         onClick = onAdvanceRound,
                         modifier = Modifier
-                            .padding(top = 10.dp)
+                            .padding(top = 8.dp)
                             .testTag("next_round_button"),
                         colors = ButtonDefaults.filledTonalButtonColors(
                             containerColor = MaterialTheme.colorScheme.primaryContainer,
                             contentColor = MaterialTheme.colorScheme.onPrimaryContainer
                         ),
-                        shape = RoundedCornerShape(12.dp)
+                        shape = RoundedCornerShape(14.dp)
                     ) {
-                        Text(stringResource(R.string.target_reached_next_round))
+                        Text(stringResource(R.string.target_reached_next_round), style = MaterialTheme.typography.labelMedium)
                         Spacer(modifier = Modifier.width(4.dp))
-                        Icon(imageVector = Icons.Default.KeyboardArrowRight, contentDescription = null, modifier = Modifier.size(18.dp))
+                        Icon(imageVector = Icons.Default.KeyboardArrowRight, contentDescription = null, modifier = Modifier.size(16.dp))
                     }
                 }
             }
 
-            // Bottom Actions: Undo (−), Reset (↻)
+            // --- BOTTOM ACTIONS: iOS Glass Undo (−) and Reset (↻) ---
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 24.dp),
+                    .padding(horizontal = 32.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                // Decrement / Undo Button
-                IconButton(
-                    onClick = onUndo,
+                // Decrement / Undo Action Button
+                IosGlassButton(
+                    icon = Icons.Default.Remove,
+                    contentDesc = stringResource(R.string.undo_count),
                     enabled = state.currentCount > 0,
-                    modifier = Modifier
-                        .size(52.dp)
-                        .background(
-                            color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
-                            shape = CircleShape
-                        )
-                        .testTag("undo_button")
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Remove,
-                        contentDescription = stringResource(R.string.undo_count),
-                        tint = if (state.currentCount > 0) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.3f),
-                        modifier = Modifier.size(24.dp)
-                    )
-                }
+                    testTag = "undo_button",
+                    onClick = onUndo
+                )
 
-                // Reset Button
-                IconButton(
-                    onClick = { showResetDialog = true },
-                    modifier = Modifier
-                        .size(52.dp)
-                        .background(
-                            color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
-                            shape = CircleShape
-                        )
-                        .testTag("reset_button")
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Refresh,
-                        contentDescription = stringResource(R.string.reset_counter),
-                        tint = MaterialTheme.colorScheme.onSurface,
-                        modifier = Modifier.size(24.dp)
-                    )
-                }
+                // Reset Action Button
+                IosGlassButton(
+                    icon = Icons.Default.Refresh,
+                    contentDesc = stringResource(R.string.reset_counter),
+                    enabled = true,
+                    testTag = "reset_button",
+                    onClick = { showResetDialog = true }
+                )
             }
 
-            // Discreet mandatory credit as required by PRD Section 34 & 46
+            // Discreet mandatory developer credit
             Text(
                 text = stringResource(R.string.app_credit),
                 style = MaterialTheme.typography.labelSmall.copy(
                     fontSize = 11.sp,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
+                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.45f)
                 ),
                 textAlign = TextAlign.Center,
-                modifier = Modifier.padding(bottom = 4.dp)
+                modifier = Modifier.padding(bottom = 2.dp)
             )
         }
     }
@@ -456,8 +505,10 @@ fun CounterScreen(
     if (showResetDialog) {
         AlertDialog(
             onDismissRequest = { showResetDialog = false },
-            title = { Text(stringResource(R.string.reset_dialog_title)) },
+            title = { Text(stringResource(R.string.reset_dialog_title), fontWeight = FontWeight.Bold) },
             text = { Text(stringResource(R.string.reset_dialog_message)) },
+            shape = RoundedCornerShape(20.dp),
+            containerColor = MaterialTheme.colorScheme.surface,
             confirmButton = {
                 Button(
                     onClick = {
@@ -466,7 +517,8 @@ fun CounterScreen(
                     },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.primary
-                    )
+                    ),
+                    shape = RoundedCornerShape(12.dp)
                 ) {
                     Text(stringResource(R.string.reset))
                 }
@@ -481,7 +533,7 @@ fun CounterScreen(
 }
 
 @Composable
-private fun TopMenuActionCard(
+private fun IosCircularActionButton(
     icon: ImageVector,
     contentDesc: String,
     testTag: String,
@@ -490,16 +542,16 @@ private fun TopMenuActionCard(
     Card(
         onClick = onClick,
         modifier = Modifier
-            .size(56.dp)
-            .shadow(elevation = 3.dp, shape = RoundedCornerShape(18.dp))
+            .size(52.dp)
+            .shadow(elevation = 6.dp, shape = CircleShape)
             .testTag(testTag),
-        shape = RoundedCornerShape(18.dp),
+        shape = CircleShape,
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
+            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.90f)
         ),
         border = androidx.compose.foundation.BorderStroke(
-            width = 1.2.dp,
-            color = MaterialTheme.colorScheme.surfaceVariant
+            width = 1.dp,
+            color = Color.White.copy(alpha = 0.12f)
         )
     ) {
         Box(
@@ -510,8 +562,46 @@ private fun TopMenuActionCard(
                 imageVector = icon,
                 contentDescription = contentDesc,
                 tint = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.size(22.dp)
+            )
+        }
+    }
+}
+
+@Composable
+private fun IosGlassButton(
+    icon: ImageVector,
+    contentDesc: String,
+    enabled: Boolean,
+    testTag: String,
+    onClick: () -> Unit
+) {
+    Card(
+        onClick = { if (enabled) onClick() },
+        modifier = Modifier
+            .size(54.dp)
+            .shadow(elevation = if (enabled) 8.dp else 2.dp, shape = CircleShape)
+            .testTag(testTag),
+        shape = CircleShape,
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = if (enabled) 0.70f else 0.30f)
+        ),
+        border = androidx.compose.foundation.BorderStroke(
+            width = 1.dp,
+            color = if (enabled) Color.White.copy(alpha = 0.16f) else Color.White.copy(alpha = 0.05f)
+        )
+    ) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = contentDesc,
+                tint = if (enabled) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.35f),
                 modifier = Modifier.size(24.dp)
             )
         }
     }
 }
+

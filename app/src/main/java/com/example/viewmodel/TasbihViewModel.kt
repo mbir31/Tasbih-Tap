@@ -46,6 +46,8 @@ data class TasbihUiState(
     val selectedTheme: TasbihTheme = TasbihTheme.EMERALD,
     val isVolumeKeyCountingEnabled: Boolean = false,
     val keepScreenAwake: Boolean = true,
+    val isScreenOffCountingEnabled: Boolean = true,
+    val isScreenOffStealthTapEnabled: Boolean = true,
     val lastTapMethod: String = ""
 )
 
@@ -83,7 +85,9 @@ class TasbihViewModel(application: Application) : AndroidViewModel(application) 
             isSoundEnabled = userPrefs.isSoundEnabled,
             selectedTheme = userPrefs.selectedTheme,
             isVolumeKeyCountingEnabled = userPrefs.isVolumeKeyCountingEnabled,
-            keepScreenAwake = userPrefs.keepScreenAwake
+            keepScreenAwake = userPrefs.keepScreenAwake,
+            isScreenOffCountingEnabled = userPrefs.isScreenOffCountingEnabled,
+            isScreenOffStealthTapEnabled = userPrefs.isScreenOffStealthTapEnabled
         )
     )
     val uiState: StateFlow<TasbihUiState> = _uiState.asStateFlow()
@@ -127,8 +131,18 @@ class TasbihViewModel(application: Application) : AndroidViewModel(application) 
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
 
     init {
+        com.example.service.TasbihManager.initialize(application)
+        viewModelScope.launch {
+            com.example.service.TasbihManager.state.collect { state ->
+                _uiState.value = state
+                backTapDetector.setSensitivity(state.sensitivity)
+            }
+        }
         if (userPrefs.isBackTapEnabled) {
             backTapDetector.start()
+        }
+        if (userPrefs.isScreenOffCountingEnabled && userPrefs.isBackTapEnabled) {
+            com.example.service.ScreenOffTasbihService.startService(application)
         }
     }
 
@@ -148,342 +162,53 @@ class TasbihViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     private fun onBackTapTriggered() {
-        viewModelScope.launch {
-            increment(fromBackTap = true)
-        }
+        com.example.service.TasbihManager.increment(fromBackTap = true)
     }
 
     fun increment(fromBackTap: Boolean = false) {
-        val currentState = _uiState.value
-
-        if (currentState.is33x3Mode) {
-            handle33x3Increment(currentState, fromBackTap)
-            return
-        }
-
-        val newCount = currentState.currentCount + 1
-        val isTargetReached = !currentState.isUnlimited && currentState.target > 0 && newCount >= currentState.target
-
-        _uiState.value = currentState.copy(
-            currentCount = newCount,
-            isCompleted = isTargetReached,
-            lastTapMethod = if (fromBackTap) "back_tap" else "screen_tap"
-        )
-        userPrefs.currentCount = newCount
-
-        triggerSensoryFeedback(isCompletion = isTargetReached)
-
-        if (isTargetReached) {
-            logSession(
-                dhikrName = currentState.activeDhikr.name,
-                dhikrArabic = currentState.activeDhikr.arabic,
-                count = newCount,
-                target = currentState.target,
-                completed = true,
-                round = currentState.round
-            )
-        }
-    }
-
-    private fun handle33x3Increment(currentState: TasbihUiState, fromBackTap: Boolean) {
-        val stages = DhikrPresets.THIRTY_THREE_TIMES_THREE
-        val currentStage = currentState.mode33x3Stage.coerceIn(0, stages.size - 1)
-        val stageTarget = if (currentStage == 2) 34 else 33
-
-        // If the full 100-count Misbaha was completed, tapping again advances to next round
-        if (currentState.isCompleted) {
-            val nextRound = currentState.round + 1
-            val newCounts = mutableListOf(1, 0, 0)
-            val firstStageDhikr = stages[0]
-            _uiState.value = currentState.copy(
-                currentCount = 1,
-                target = 33,
-                round = nextRound,
-                activeDhikr = firstStageDhikr,
-                mode33x3Stage = 0,
-                mode33x3Counts = newCounts,
-                isCompleted = false,
-                lastTapMethod = if (fromBackTap) "back_tap" else "screen_tap"
-            )
-            userPrefs.currentCount = 1
-            userPrefs.currentRound = nextRound
-            userPrefs.mode33x3Stage = 0
-            userPrefs.target = 33
-            triggerSensoryFeedback(isCompletion = false)
-            return
-        }
-
-        // If the current stage is already at its target, advance to next stage on this tap
-        if (currentState.currentCount >= stageTarget && currentStage < stages.size - 1) {
-            val nextStage = currentStage + 1
-            val nextTarget = if (nextStage == 2) 34 else 33
-            val nextStageDhikr = stages[nextStage]
-            val updatedCounts = currentState.mode33x3Counts.toMutableList()
-            updatedCounts[nextStage] = 1
-
-            _uiState.value = currentState.copy(
-                currentCount = 1,
-                target = nextTarget,
-                activeDhikr = nextStageDhikr,
-                mode33x3Stage = nextStage,
-                mode33x3Counts = updatedCounts,
-                isCompleted = false,
-                lastTapMethod = if (fromBackTap) "back_tap" else "screen_tap"
-            )
-            userPrefs.currentCount = 1
-            userPrefs.mode33x3Stage = nextStage
-            userPrefs.target = nextTarget
-            triggerSensoryFeedback(isCompletion = false)
-            return
-        }
-
-        // Increment count within the current stage
-        val newCount = currentState.currentCount + 1
-        val updatedCounts = currentState.mode33x3Counts.toMutableList()
-        updatedCounts[currentStage] = newCount
-        val isStageCompleted = newCount >= stageTarget
-
-        if (isStageCompleted) {
-            if (currentStage < stages.size - 1) {
-                // Stage milestone reached (SubhanAllah 33 or Alhamdulillah 33)
-                triggerSensoryFeedback(isCompletion = true)
-                _uiState.value = currentState.copy(
-                    currentCount = newCount,
-                    target = stageTarget,
-                    activeDhikr = stages[currentStage],
-                    mode33x3Stage = currentStage,
-                    mode33x3Counts = updatedCounts,
-                    isCompleted = false,
-                    lastTapMethod = if (fromBackTap) "back_tap" else "screen_tap"
-                )
-            } else {
-                // Final stage reached (Allahu Akbar 34) -> 100 complete!
-                triggerSensoryFeedback(isCompletion = true)
-                logSession(
-                    dhikrName = "33×3 Misbaha (Complete)",
-                    dhikrArabic = "سُبْحَانَ اللَّهِ • الْحَمْدُ لِلَّهِ • اللَّهُ أَكْبَرُ",
-                    count = 100,
-                    target = 100,
-                    completed = true,
-                    round = currentState.round
-                )
-                _uiState.value = currentState.copy(
-                    currentCount = newCount,
-                    target = stageTarget,
-                    activeDhikr = stages[currentStage],
-                    mode33x3Stage = currentStage,
-                    mode33x3Counts = updatedCounts,
-                    isCompleted = true,
-                    lastTapMethod = if (fromBackTap) "back_tap" else "screen_tap"
-                )
-            }
-        } else {
-            triggerSensoryFeedback(isCompletion = false)
-            _uiState.value = currentState.copy(
-                currentCount = newCount,
-                target = stageTarget,
-                activeDhikr = stages[currentStage],
-                mode33x3Stage = currentStage,
-                mode33x3Counts = updatedCounts,
-                isCompleted = false,
-                lastTapMethod = if (fromBackTap) "back_tap" else "screen_tap"
-            )
-        }
-
-        userPrefs.currentCount = newCount
-        userPrefs.mode33x3Stage = currentStage
-        userPrefs.target = stageTarget
+        com.example.service.TasbihManager.increment(fromBackTap)
     }
 
     fun decrement() {
-        val currentState = _uiState.value
-        if (currentState.is33x3Mode) {
-            val currentStage = currentState.mode33x3Stage
-            val stages = DhikrPresets.THIRTY_THREE_TIMES_THREE
-            val counts = currentState.mode33x3Counts.toMutableList()
-
-            if (currentState.currentCount > 0) {
-                val newCount = currentState.currentCount - 1
-                counts[currentStage] = newCount
-                val stageTarget = if (currentStage == 2) 34 else 33
-                _uiState.value = currentState.copy(
-                    currentCount = newCount,
-                    target = stageTarget,
-                    mode33x3Counts = counts,
-                    isCompleted = false
-                )
-                userPrefs.currentCount = newCount
-                triggerSensoryFeedback(isCompletion = false)
-            } else if (currentStage > 0) {
-                // Revert to previous stage at its completed count
-                val prevStage = currentStage - 1
-                val prevTarget = if (prevStage == 2) 34 else 33
-                val prevDhikr = stages[prevStage]
-                counts[prevStage] = prevTarget
-                _uiState.value = currentState.copy(
-                    currentCount = prevTarget,
-                    target = prevTarget,
-                    activeDhikr = prevDhikr,
-                    mode33x3Stage = prevStage,
-                    mode33x3Counts = counts,
-                    isCompleted = false
-                )
-                userPrefs.currentCount = prevTarget
-                userPrefs.mode33x3Stage = prevStage
-                userPrefs.target = prevTarget
-                triggerSensoryFeedback(isCompletion = false)
-            }
-            return
-        }
-
-        if (currentState.currentCount <= 0) return
-
-        val newCount = currentState.currentCount - 1
-        _uiState.value = currentState.copy(
-            currentCount = newCount,
-            isCompleted = false
-        )
-        userPrefs.currentCount = newCount
-        triggerSensoryFeedback(isCompletion = false)
+        com.example.service.TasbihManager.decrement()
     }
 
     fun reset() {
-        val currentState = _uiState.value
-        if (currentState.currentCount > 0 && !currentState.isCompleted) {
-            logSession(
-                dhikrName = if (currentState.is33x3Mode) "33×3 Misbaha (Incomplete)" else currentState.activeDhikr.name,
-                dhikrArabic = currentState.activeDhikr.arabic,
-                count = if (currentState.is33x3Mode) currentState.mode33x3Counts.sum() else currentState.currentCount,
-                target = if (currentState.is33x3Mode) 100 else currentState.target,
-                completed = false,
-                round = currentState.round
-            )
-        }
-
-        val stageDhikr = if (currentState.is33x3Mode) DhikrPresets.THIRTY_THREE_TIMES_THREE[0] else currentState.activeDhikr
-        val defaultTarget = if (currentState.is33x3Mode) 33 else currentState.target
-
-        _uiState.value = currentState.copy(
-            currentCount = 0,
-            target = defaultTarget,
-            activeDhikr = stageDhikr,
-            isCompleted = false,
-            mode33x3Stage = 0,
-            mode33x3Counts = listOf(0, 0, 0)
-        )
-        userPrefs.currentCount = 0
-        userPrefs.mode33x3Stage = 0
-        if (currentState.is33x3Mode) {
-            userPrefs.target = 33
-        }
+        com.example.service.TasbihManager.reset()
     }
 
     fun advanceRound() {
-        val currentState = _uiState.value
-        val nextRound = currentState.round + 1
-        val stageDhikr = if (currentState.is33x3Mode) DhikrPresets.THIRTY_THREE_TIMES_THREE[0] else currentState.activeDhikr
-        val defaultTarget = if (currentState.is33x3Mode) 33 else currentState.target
-
-        _uiState.value = currentState.copy(
-            currentCount = 0,
-            target = defaultTarget,
-            activeDhikr = stageDhikr,
-            round = nextRound,
-            isCompleted = false,
-            mode33x3Stage = 0,
-            mode33x3Counts = listOf(0, 0, 0)
-        )
-        userPrefs.currentCount = 0
-        userPrefs.currentRound = nextRound
-        userPrefs.mode33x3Stage = 0
-        if (currentState.is33x3Mode) {
-            userPrefs.target = 33
-        }
+        com.example.service.TasbihManager.advanceRound()
     }
 
     fun selectDhikr(dhikr: DhikrItem) {
-        val currentState = _uiState.value
-
-        if (currentState.currentCount > 0) {
-            logSession(
-                dhikrName = currentState.activeDhikr.name,
-                dhikrArabic = currentState.activeDhikr.arabic,
-                count = currentState.currentCount,
-                target = currentState.target,
-                completed = currentState.isCompleted,
-                round = currentState.round
-            )
-        }
-
-        _uiState.value = currentState.copy(
-            activeDhikr = dhikr,
-            target = dhikr.defaultTarget,
-            currentCount = 0,
-            round = 1,
-            isUnlimited = false,
-            isCompleted = false,
-            is33x3Mode = false
-        )
-
-        userPrefs.activeDhikrId = dhikr.id
-        userPrefs.activeDhikrName = dhikr.name
-        userPrefs.activeDhikrArabic = dhikr.arabic
-        userPrefs.target = dhikr.defaultTarget
-        userPrefs.currentCount = 0
-        userPrefs.currentRound = 1
-        userPrefs.isUnlimitedMode = false
-        userPrefs.is33x3Mode = false
+        com.example.service.TasbihManager.selectDhikr(dhikr)
     }
 
     fun selectTarget(target: Int) {
-        val isCompleted = target in 1.._uiState.value.currentCount
-        _uiState.value = _uiState.value.copy(
-            target = target,
-            isUnlimited = false,
-            isCompleted = isCompleted
-        )
-        userPrefs.target = target
-        userPrefs.isUnlimitedMode = false
+        com.example.service.TasbihManager.selectTarget(target)
     }
 
     fun toggleUnlimitedMode(enabled: Boolean) {
-        _uiState.value = _uiState.value.copy(
-            isUnlimited = enabled,
-            isCompleted = false
-        )
-        userPrefs.isUnlimitedMode = enabled
+        com.example.service.TasbihManager.toggleUnlimitedMode(enabled)
     }
 
     fun toggle33x3Mode(enabled: Boolean) {
-        val currentState = _uiState.value
-        val stageDhikr = DhikrPresets.THIRTY_THREE_TIMES_THREE[0]
-
-        _uiState.value = currentState.copy(
-            is33x3Mode = enabled,
-            mode33x3Stage = 0,
-            mode33x3Counts = listOf(0, 0, 0),
-            currentCount = 0,
-            target = 33,
-            activeDhikr = if (enabled) stageDhikr else currentState.activeDhikr,
-            isUnlimited = false,
-            isCompleted = false
-        )
-
-        userPrefs.is33x3Mode = enabled
-        userPrefs.currentCount = 0
-        userPrefs.mode33x3Stage = 0
-        if (enabled) {
-            userPrefs.target = 33
-        }
+        com.example.service.TasbihManager.toggle33x3Mode(enabled)
     }
 
     fun toggleBackTap(enabled: Boolean) {
         _uiState.value = _uiState.value.copy(isBackTapEnabled = enabled)
         userPrefs.isBackTapEnabled = enabled
+        com.example.service.TasbihManager.toggleBackTap(enabled)
         if (enabled) {
             backTapDetector.start()
+            if (_uiState.value.isScreenOffCountingEnabled) {
+                com.example.service.ScreenOffTasbihService.startService(getApplication())
+            }
         } else {
             backTapDetector.stop()
+            com.example.service.ScreenOffTasbihService.stopService(getApplication())
         }
     }
 
@@ -491,36 +216,60 @@ class TasbihViewModel(application: Application) : AndroidViewModel(application) 
         _uiState.value = _uiState.value.copy(sensitivity = sensitivity)
         userPrefs.sensitivity = sensitivity
         backTapDetector.setSensitivity(sensitivity)
+        com.example.service.TasbihManager.setSensitivity(sensitivity)
     }
 
     fun toggleHaptic(enabled: Boolean) {
         _uiState.value = _uiState.value.copy(isHapticEnabled = enabled)
         userPrefs.isHapticEnabled = enabled
+        com.example.service.TasbihManager.toggleHaptic(enabled)
     }
 
     fun setHapticStrength(strength: HapticStrength) {
         _uiState.value = _uiState.value.copy(hapticStrength = strength)
         userPrefs.hapticStrength = strength
+        com.example.service.TasbihManager.setHapticStrength(strength)
     }
 
     fun toggleSound(enabled: Boolean) {
         _uiState.value = _uiState.value.copy(isSoundEnabled = enabled)
         userPrefs.isSoundEnabled = enabled
+        com.example.service.TasbihManager.toggleSound(enabled)
     }
 
     fun selectTheme(theme: TasbihTheme) {
         _uiState.value = _uiState.value.copy(selectedTheme = theme)
         userPrefs.selectedTheme = theme
+        com.example.service.TasbihManager.selectTheme(theme)
     }
 
     fun toggleVolumeKeyCounting(enabled: Boolean) {
         _uiState.value = _uiState.value.copy(isVolumeKeyCountingEnabled = enabled)
         userPrefs.isVolumeKeyCountingEnabled = enabled
+        com.example.service.TasbihManager.toggleVolumeKeyCounting(enabled)
     }
 
     fun toggleKeepScreenAwake(enabled: Boolean) {
         _uiState.value = _uiState.value.copy(keepScreenAwake = enabled)
         userPrefs.keepScreenAwake = enabled
+        com.example.service.TasbihManager.toggleKeepScreenAwake(enabled)
+    }
+
+    fun toggleScreenOffCounting(enabled: Boolean) {
+        _uiState.value = _uiState.value.copy(isScreenOffCountingEnabled = enabled)
+        userPrefs.isScreenOffCountingEnabled = enabled
+        com.example.service.TasbihManager.toggleScreenOffCounting(enabled)
+        if (enabled && _uiState.value.isBackTapEnabled) {
+            com.example.service.ScreenOffTasbihService.startService(getApplication())
+        } else if (!enabled) {
+            com.example.service.ScreenOffTasbihService.stopService(getApplication())
+        }
+    }
+
+    fun toggleScreenOffStealthTap(enabled: Boolean) {
+        _uiState.value = _uiState.value.copy(isScreenOffStealthTapEnabled = enabled)
+        userPrefs.isScreenOffStealthTapEnabled = enabled
+        com.example.service.TasbihManager.toggleScreenOffStealthTap(enabled)
     }
 
     fun createCustomDhikr(name: String, arabic: String, target: Int) {

@@ -180,27 +180,48 @@ Pre-loaded with authentic daily adhkar and duas with complete Arabic calligraphy
 
 ## 🔧 Recent Improvements & Fixes
 
-1. **PWA Runtime & UX Fixes**:
+1. **Complete 34 Authentic Dhikr Library & Quranic Category**:
+   - Synchronized all 34 authentic Dhikrs and Duas across both PWA (`app.js`) and Native Android (`DhikrItem.kt`, `strings.xml`, `strings-bn.xml`).
+   - Added the **Quranic Duas (কুরআনিক দু‘আ)** category, featuring powerful Rabbana invocations (Rabbana Atina, Rabbana Hab Lana, Rabbi Inni Lima Anzalta, Rabbanaghfirli).
+   - Added complete Bengali and English translations, transliterations, and authentic Arabic texts with proper diacritics.
+   - Category filtering chips updated in both PWA and Android selection sheet (All, Essential, Daily, Quranic, Istighfar, Praise, Protection).
+
+2. **iOS 17/18 Style UI Redesign & Glassmorphic Aesthetics**:
+   - **Circular Tasbih Ring**: Redesigned with an Apple Activity Ring aesthetic featuring a frosted glass core, glow sweep arc, circular track with specular highlight border, and elegant typography with tight tracking.
+   - **Capsule Buttons & Frosted Pill Badges**: Converted mode indicators, quick action buttons, and undo/reset controls into iOS-style glassmorphic capsules with subtle border strokes (`Color.White.copy(alpha = 0.12f)`).
+   - **Native iOS Switch Styling**: Standardized toggles to authentic iOS Green (`#30D158`) with dark background tracks (`#39393D`) and white thumbs across Settings, 33×3 mode, and dialogs.
+   - **Inset Grouped Cards**: Applied iOS grouped card containers with 20dp squircles, elevated shadows, and hair-line border reflections across `CounterScreen`, `SettingsScreen`, `HistoryScreen`, and `DhikrSelectionSheet`.
+
+3. **UI Bug Fixes & Layout Overflow Resolution**:
+   - **Arabic Verse Overflow Fix**: Resolved UI clipping and layout overflows on `CounterScreen` when selecting long Quranic duas or multi-line adhkar. Implemented a constrained scrollable container (`heightIn(max = 140.dp)` with `verticalScroll`) preventing counter ring distortion or bottom-bar pushout.
+   - **Theme Consistency**: Aligned all 6 theme palettes (Emerald, Midnight, Sand, Night, Rose Gold, Royal Amber) with modern iOS dark and warm neutral color tokens.
+
+4. **PWA Runtime & UX Fixes**:
    - Resolved `showToast` definition, allowing milestone toasts and install prompts to execute without uncaught exceptions.
    - Cleared `isUnlimited` mode when selecting preset dhikr cards from the bottom sheet selector.
    - Wired `releaseWakeLock()` to the Settings toggle to immediately release screen lock when toggled off.
    - Enabled overlay background click-to-dismiss for all bottom sheet modals.
    - Added full bilingual DOM translation synchronization across all header pills, sheet titles, and settings items.
-2. **Back-Tap Calibration & Lateral Shake Suppression**:
+
+5. **Back-Tap Calibration & Lateral Shake Suppression**:
    - Implemented an initial acceleration baseline check (`isFirstAcc`) to prevent false triggers during startup.
    - Enforced lateral suppression (`deltaZ >= deltaX * 0.7 && deltaZ >= deltaY * 0.7`) to filter out horizontal movements and device shakes.
    - Added user-gesture permission request hooks for iOS Safari.
-3. **PWA Asset Format & Launcher Icon Recovery**:
-   - Repaired corrupted binary WebP and PNG files across `app/src/main/res/mipmap-*` and root icons.
-   - Generated valid 192×192 and 512×512 PNG icons meeting PWA install criteria.
-   - Updated Service Worker caching to `tasbih-tap-pwa-v2` and constrained fallback offline routing to navigation requests.
-4. **Android Native Jetpack Compose Updates**:
+
+6. **Android Native Jetpack Compose Architecture**:
    - Fixed Sunnah 33×3 progression in `TasbihViewModel.kt` to target 33, 33, and 34 counts across stages, preserving individual stage visual feedback without premature count jumps.
    - Added stage-aware undo (`decrement()`) that steps backward smoothly within and across stages.
    - Synchronized preset targets (`allahu_akbar` = 34, `yunus_dua` = 100).
    - Guarded volume key counting against continuous repeat events (`event.repeatCount == 0`).
    - Automatically pause the main `backTapDetector` when testing sensitivity in `BackTapTestDialog` and when navigating to History or Settings screens.
    - Added official `gradlew` and `gradlew.bat` wrapper scripts for local and CI builds.
+
+7. **Screen-Off & Stealth Mode Counting Engine (Android Native)**:
+   - **Background Foreground Service (`ScreenOffTasbihService`)**: Implemented a battery-conscious `ForegroundService` with `PARTIAL_WAKE_LOCK` and Android 14+ `FOREGROUND_SERVICE_TYPE_SPECIAL_USE` integration. Users can lock their device or turn their display off completely and continue counting seamlessly by tapping the back of the phone.
+   - **Continuous Lock Screen Notification**: Real-time persistent notification displaying the active dhikr, count, target progress, and round with interactive quick actions (Count, Undo, Reset) directly on the lock screen.
+   - **Dedicated OLED Stealth Activity (`ScreenOffActivity`)**: Created a battery-saving, zero-distraction pitch-black HUD (`#000000`) designed for nighttime prayer (Tahajjud) and discreet counting in public spaces. Includes full-screen gentle tap feedback, back-tap detection, ambient clock, and easy exit controls.
+   - **Unified `TasbihManager` Architecture**: Centralized singleton state engine providing bidirectional synchronization between `CounterScreen`, `ScreenOffTasbihService`, and `ScreenOffActivity` without race conditions.
+   - **Convenient Launch Controls**: Added an OLED Stealth mode action button to the main `CounterScreen` top bar and dedicated toggle controls in `SettingsScreen`.
 
 ---
 

@@ -22,6 +22,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.DisplaySettings
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.Security
@@ -77,6 +78,7 @@ fun SettingsScreen(
     selectedTheme: TasbihTheme,
     keepScreenAwake: Boolean,
     volumeKeyCounting: Boolean,
+    isScreenOffCountingEnabled: Boolean = true,
     backTapDetector: BackTapDetector,
     onToggleBackTap: (Boolean) -> Unit,
     onSelectSensitivity: (Sensitivity) -> Unit,
@@ -86,6 +88,7 @@ fun SettingsScreen(
     onSelectTheme: (TasbihTheme) -> Unit,
     onToggleKeepScreenAwake: (Boolean) -> Unit,
     onToggleVolumeKeyCounting: (Boolean) -> Unit,
+    onToggleScreenOffCounting: (Boolean) -> Unit = {},
     onBack: () -> Unit
 ) {
     val context = LocalContext.current
@@ -140,7 +143,8 @@ fun SettingsScreen(
                     colors = CardDefaults.cardColors(
                         containerColor = MaterialTheme.colorScheme.surface
                     ),
-                    shape = RoundedCornerShape(16.dp)
+                    shape = RoundedCornerShape(20.dp),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, Color.White.copy(alpha = 0.08f))
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         Row(
@@ -165,8 +169,10 @@ fun SettingsScreen(
                                 checked = isBackTapEnabled,
                                 onCheckedChange = onToggleBackTap,
                                 colors = SwitchDefaults.colors(
-                                    checkedThumbColor = MaterialTheme.colorScheme.primary,
-                                    checkedTrackColor = MaterialTheme.colorScheme.primaryContainer
+                                    checkedThumbColor = Color.White,
+                                    checkedTrackColor = Color(0xFF30D158),
+                                    uncheckedThumbColor = Color.White,
+                                    uncheckedTrackColor = Color(0xFF39393D)
                                 )
                             )
                         }
@@ -248,7 +254,8 @@ fun SettingsScreen(
                     colors = CardDefaults.cardColors(
                         containerColor = MaterialTheme.colorScheme.surface
                     ),
-                    shape = RoundedCornerShape(16.dp)
+                    shape = RoundedCornerShape(20.dp),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, Color.White.copy(alpha = 0.08f))
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         Row(
@@ -273,8 +280,10 @@ fun SettingsScreen(
                                 checked = isHapticEnabled,
                                 onCheckedChange = onToggleHaptic,
                                 colors = SwitchDefaults.colors(
-                                    checkedThumbColor = MaterialTheme.colorScheme.primary,
-                                    checkedTrackColor = MaterialTheme.colorScheme.primaryContainer
+                                    checkedThumbColor = Color.White,
+                                    checkedTrackColor = Color(0xFF30D158),
+                                    uncheckedThumbColor = Color.White,
+                                    uncheckedTrackColor = Color(0xFF39393D)
                                 )
                             )
                         }
@@ -336,8 +345,10 @@ fun SettingsScreen(
                                 checked = isSoundEnabled,
                                 onCheckedChange = onToggleSound,
                                 colors = SwitchDefaults.colors(
-                                    checkedThumbColor = MaterialTheme.colorScheme.primary,
-                                    checkedTrackColor = MaterialTheme.colorScheme.primaryContainer
+                                    checkedThumbColor = Color.White,
+                                    checkedTrackColor = Color(0xFF30D158),
+                                    uncheckedThumbColor = Color.White,
+                                    uncheckedTrackColor = Color(0xFF39393D)
                                 )
                             )
                         }
@@ -355,7 +366,8 @@ fun SettingsScreen(
                     colors = CardDefaults.cardColors(
                         containerColor = MaterialTheme.colorScheme.surface
                     ),
-                    shape = RoundedCornerShape(16.dp)
+                    shape = RoundedCornerShape(20.dp),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, Color.White.copy(alpha = 0.08f))
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         Row(
@@ -380,8 +392,10 @@ fun SettingsScreen(
                                 checked = keepScreenAwake,
                                 onCheckedChange = onToggleKeepScreenAwake,
                                 colors = SwitchDefaults.colors(
-                                    checkedThumbColor = MaterialTheme.colorScheme.primary,
-                                    checkedTrackColor = MaterialTheme.colorScheme.primaryContainer
+                                    checkedThumbColor = Color.White,
+                                    checkedTrackColor = Color(0xFF30D158),
+                                    uncheckedThumbColor = Color.White,
+                                    uncheckedTrackColor = Color(0xFF39393D)
                                 )
                             )
                         }
@@ -412,10 +426,90 @@ fun SettingsScreen(
                                 checked = volumeKeyCounting,
                                 onCheckedChange = onToggleVolumeKeyCounting,
                                 colors = SwitchDefaults.colors(
-                                    checkedThumbColor = MaterialTheme.colorScheme.primary,
-                                    checkedTrackColor = MaterialTheme.colorScheme.primaryContainer
+                                    checkedThumbColor = Color.White,
+                                    checkedTrackColor = Color(0xFF30D158),
+                                    uncheckedThumbColor = Color.White,
+                                    uncheckedTrackColor = Color(0xFF39393D)
                                 )
                             )
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                // Section 3.5: Screen-Off & Stealth Counting
+                SettingsSectionHeader(title = stringResource(R.string.screen_off_counting_title), icon = Icons.Default.DarkMode)
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.surface
+                    ),
+                    shape = RoundedCornerShape(20.dp),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, Color.White.copy(alpha = 0.08f))
+                ) {
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text(
+                                    text = stringResource(R.string.screen_off_counting_title),
+                                    style = MaterialTheme.typography.titleMedium,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = MaterialTheme.colorScheme.onSurface
+                                )
+                                Text(
+                                    text = stringResource(R.string.screen_off_counting_desc),
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                            Switch(
+                                checked = isScreenOffCountingEnabled,
+                                onCheckedChange = onToggleScreenOffCounting,
+                                colors = SwitchDefaults.colors(
+                                    checkedThumbColor = Color.White,
+                                    checkedTrackColor = Color(0xFF30D158),
+                                    uncheckedThumbColor = Color.White,
+                                    uncheckedTrackColor = Color(0xFF39393D)
+                                )
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.height(14.dp))
+                        HorizontalDivider(color = MaterialTheme.colorScheme.surfaceVariant)
+                        Spacer(modifier = Modifier.height(12.dp))
+
+                        Text(
+                            text = stringResource(R.string.screen_off_mode_desc),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+
+                        Spacer(modifier = Modifier.height(10.dp))
+
+                        OutlinedButton(
+                            onClick = {
+                                val intent = android.content.Intent(context, com.example.ScreenOffActivity::class.java)
+                                context.startActivity(intent)
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .testTag("enter_stealth_mode_button"),
+                            shape = RoundedCornerShape(12.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.DarkMode,
+                                contentDescription = null,
+                                modifier = Modifier.size(16.dp)
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(stringResource(R.string.enter_screen_off_mode))
                         }
                     }
                 }
@@ -431,7 +525,8 @@ fun SettingsScreen(
                     colors = CardDefaults.cardColors(
                         containerColor = MaterialTheme.colorScheme.surface
                     ),
-                    shape = RoundedCornerShape(16.dp)
+                    shape = RoundedCornerShape(20.dp),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, Color.White.copy(alpha = 0.08f))
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         TasbihTheme.entries.forEachIndexed { index, theme ->
